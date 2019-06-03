@@ -12,13 +12,13 @@ INSERT INTO clientes (nombre, apellido, email, create_at) VALUES('Magma', 'Lee',
 INSERT INTO clientes (nombre, apellido, email, create_at) VALUES('Tornado', 'Roe', 'tornado.roe@gmail.com', '2018-03-05');
 INSERT INTO clientes (nombre, apellido, email, create_at) VALUES('Jade', 'Doe', 'jane.doe@gmail.com', '2018-03-06');
 
-/* Creamos algunos usuarios con sus roles */
+/* Creamos algunos usuarios con sus rols */
 INSERT INTO usuarios (username, password, enabled, nombre, apellido, email) VALUES ('andres','$2a$10$GqO2WMUqM.BsZWFJCkOKieOOHWoBJ75cDY//R3UI7h3ZqBDEMisTG',true, 'Andres', 'Guzman','profesor@bolsadeideas.com');
 INSERT INTO usuarios (username, password, enabled, nombre, apellido, email) VALUES ('admin','$2a$10$kqTEtBZVWHpfOoW6g7wQCOACAnhY4kjPPlrz7OKEEMxmkR1PvoJ/i',true, 'John', 'Doe','jhon.doe@bolsadeideas.com');
 
 INSERT INTO roles (nombre) VALUES ('ROLE_USER');
 INSERT INTO roles (nombre) VALUES ('ROLE_ADMIN');
 
-INSERT INTO usuarios_roles (usuario_id, role_id) VALUES (1, 1);
-INSERT INTO usuarios_roles (usuario_id, role_id) VALUES (2, 2);
-INSERT INTO usuarios_roles (usuario_id, role_id) VALUES (2, 1);
+INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (1, 1);
+INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (2, 2);
+INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (2, 1);

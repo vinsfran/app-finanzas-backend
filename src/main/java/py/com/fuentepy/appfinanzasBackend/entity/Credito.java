@@ -27,8 +27,6 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "credito")
-@NamedQueries({
-    @NamedQuery(name = "Credito.findAll", query = "SELECT c FROM Credito c")})
 public class Credito implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -76,13 +74,13 @@ public class Credito implements Serializable {
     @Column(name = "estado")
     private Boolean estado;
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
-    private List<PlanesPagos> planesPagosList;
+    private List<PlanPago> planPagoList;
     @JoinColumn(name = "entidade_financiera_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private EntidadesFinancieras entidadeFinancieraId;
+    private EntidadFinanciera entidadeFinancieraId;
     @JoinColumn(name = "moneda_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Monedas monedaId;
+    private Moneda monedaId;
 
     public Credito() {
     }
@@ -195,27 +193,27 @@ public class Credito implements Serializable {
         this.estado = estado;
     }
 
-    public List<PlanesPagos> getPlanesPagosList() {
-        return planesPagosList;
+    public List<PlanPago> getPlanPagoList() {
+        return planPagoList;
     }
 
-    public void setPlanesPagosList(List<PlanesPagos> planesPagosList) {
-        this.planesPagosList = planesPagosList;
+    public void setPlanPagoList(List<PlanPago> planPagoList) {
+        this.planPagoList = planPagoList;
     }
 
-    public EntidadesFinancieras getEntidadeFinancieraId() {
+    public EntidadFinanciera getEntidadeFinancieraId() {
         return entidadeFinancieraId;
     }
 
-    public void setEntidadeFinancieraId(EntidadesFinancieras entidadeFinancieraId) {
+    public void setEntidadeFinancieraId(EntidadFinanciera entidadeFinancieraId) {
         this.entidadeFinancieraId = entidadeFinancieraId;
     }
 
-    public Monedas getMonedaId() {
+    public Moneda getMonedaId() {
         return monedaId;
     }
 
-    public void setMonedaId(Monedas monedaId) {
+    public void setMonedaId(Moneda monedaId) {
         this.monedaId = monedaId;
     }
 

@@ -1,17 +1,17 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
-import java.io.Serializable;
 import javax.persistence.Basic;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 
 /**
  *
  * @author vinsfran
  */
 @Embeddable
-public class PlanesPagosPK implements Serializable {
+public class PlanPagoPK implements Serializable {
 
     @Basic(optional = false)
     @NotNull
@@ -22,10 +22,10 @@ public class PlanesPagosPK implements Serializable {
     @Column(name = "nro_credito")
     private int nroCredito;
 
-    public PlanesPagosPK() {
+    public PlanPagoPK() {
     }
 
-    public PlanesPagosPK(int nroCuota, int nroCredito) {
+    public PlanPagoPK(int nroCuota, int nroCredito) {
         this.nroCuota = nroCuota;
         this.nroCredito = nroCredito;
     }
@@ -57,10 +57,10 @@ public class PlanesPagosPK implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PlanesPagosPK)) {
+        if (!(object instanceof PlanPagoPK)) {
             return false;
         }
-        PlanesPagosPK other = (PlanesPagosPK) object;
+        PlanPagoPK other = (PlanPagoPK) object;
         if (this.nroCuota != other.nroCuota) {
             return false;
         }
@@ -72,7 +72,7 @@ public class PlanesPagosPK implements Serializable {
 
     @Override
     public String toString() {
-        return "entiappfinanza.PlanesPagosPK[ nroCuota=" + nroCuota + ", nroCredito=" + nroCredito + " ]";
+        return "entiappfinanza.PlanPagoPK[ nroCuota=" + nroCuota + ", nroCredito=" + nroCredito + " ]";
     }
     
 }

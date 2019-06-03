@@ -1,54 +1,49 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author vinsfran
  */
 @Entity
-@Table(name = "roles")
-@NamedQueries({
-    @NamedQuery(name = "Roles.findAll", query = "SELECT r FROM Roles r")})
-public class Roles implements Serializable {
+@Table(name = "tipos_ahorros")
+public class TipoAhorro implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
+    @Column(name = "descripcion")
+    private String descripcion;
+    @Basic(optional = false)
+    @NotNull
+    @Size(min = 1, max = 45)
     @Column(name = "nombre")
     private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "rolesId")
-    private List<Usuarios> usuariosList;
 
-    public Roles() {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoAhorroId")
+    private List<Ahorro> ahorroList;
+
+    public TipoAhorro() {
     }
 
-    public Roles(Integer id) {
+    public TipoAhorro(Integer id) {
         this.id = id;
     }
 
-    public Roles(Integer id, String nombre) {
+    public TipoAhorro(Integer id, String descripcion, String nombre) {
         this.id = id;
+        this.descripcion = descripcion;
         this.nombre = nombre;
     }
 
@@ -60,6 +55,14 @@ public class Roles implements Serializable {
         this.id = id;
     }
 
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
     public String getNombre() {
         return nombre;
     }
@@ -68,12 +71,12 @@ public class Roles implements Serializable {
         this.nombre = nombre;
     }
 
-    public List<Usuarios> getUsuariosList() {
-        return usuariosList;
+    public List<Ahorro> getAhorroList() {
+        return ahorroList;
     }
 
-    public void setUsuariosList(List<Usuarios> usuariosList) {
-        this.usuariosList = usuariosList;
+    public void setAhorroList(List<Ahorro> ahorroList) {
+        this.ahorroList = ahorroList;
     }
 
     @Override
@@ -86,10 +89,10 @@ public class Roles implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Roles)) {
+        if (!(object instanceof TipoAhorro)) {
             return false;
         }
-        Roles other = (Roles) object;
+        TipoAhorro other = (TipoAhorro) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -98,7 +101,7 @@ public class Roles implements Serializable {
 
     @Override
     public String toString() {
-        return "entiappfinanza.Roles[ id=" + id + " ]";
+        return "entiappfinanza.TipoAhorro[ id=" + id + " ]";
     }
     
 }

@@ -4,6 +4,10 @@ import javax.persistence.*;
 import java.io.Serializable;
 import java.util.List;
 
+/**
+ *
+ * @author vinsfran
+ */
 @Entity
 @Table(name = "usuarios")
 public class Usuario implements Serializable {
@@ -29,11 +33,21 @@ public class Usuario implements Serializable {
     @Column(unique = true)
     private String email;
 
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
+    private List<EntidadFinanciera> entidadFinancieraList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
+    private List<Ahorro> ahorroList;
+
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuario_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_id"),
-            uniqueConstraints = {@UniqueConstraint(columnNames = {"usuario_id", "role_id"})})
-    private List<Role> roles;
+    @JoinTable(name = "usuarios_roles", joinColumns = @JoinColumn(name = "usuarios_id"),
+            inverseJoinColumns = @JoinColumn(name = "roles_id"),
+            uniqueConstraints = {@UniqueConstraint(columnNames = {"usuarios_id", "roles_id"})})
+    private List<Rol> roles;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
+    private List<Pago> pagoList;
+
 
     public Long getId() {
         return id;
@@ -59,20 +73,20 @@ public class Usuario implements Serializable {
         this.password = password;
     }
 
-    public Boolean getEnabled() {
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(Boolean enabled) {
+    public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-    }
-
-    public List<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(List<Role> roles) {
-        this.roles = roles;
     }
 
     public String getNombre() {
@@ -91,11 +105,36 @@ public class Usuario implements Serializable {
         this.apellido = apellido;
     }
 
-    public String getEmail() {
-        return email;
+    public List<EntidadFinanciera> getEntidadFinancieraList() {
+        return entidadFinancieraList;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setEntidadFinancieraList(List<EntidadFinanciera> entidadFinancieraList) {
+        this.entidadFinancieraList = entidadFinancieraList;
     }
+
+    public List<Ahorro> getAhorroList() {
+        return ahorroList;
+    }
+
+    public void setAhorroList(List<Ahorro> ahorroList) {
+        this.ahorroList = ahorroList;
+    }
+
+    public List<Rol> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(List<Rol> roles) {
+        this.roles = roles;
+    }
+
+    public List<Pago> getPagoList() {
+        return pagoList;
+    }
+
+    public void setPagoList(List<Pago> pagoList) {
+        this.pagoList = pagoList;
+    }
+
 }

@@ -1,24 +1,11 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.EmbeddedId;
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -26,13 +13,11 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "planes_pagos")
-@NamedQueries({
-    @NamedQuery(name = "PlanesPagos.findAll", query = "SELECT p FROM PlanesPagos p")})
-public class PlanesPagos implements Serializable {
+public class PlanPago implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @EmbeddedId
-    protected PlanesPagosPK planesPagosPK;
+    protected PlanPagoPK planPagoPK;
     @Basic(optional = false)
     @NotNull
     @Column(name = "fecha_vto")
@@ -78,33 +63,34 @@ public class PlanesPagos implements Serializable {
     @JoinColumn(name = "nro_credito", referencedColumnName = "nro_credito", insertable = false, updatable = false)
     @ManyToOne(optional = false)
     private Credito credito;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "planesPagos")
-    private List<Pagos> pagosList;
 
-    public PlanesPagos() {
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "planPago")
+    private List<Pago> pagoList;
+
+    public PlanPago() {
     }
 
-    public PlanesPagos(PlanesPagosPK planesPagosPK) {
-        this.planesPagosPK = planesPagosPK;
+    public PlanPago(PlanPagoPK planPagoPK) {
+        this.planPagoPK = planPagoPK;
     }
 
-    public PlanesPagos(PlanesPagosPK planesPagosPK, Date fechaVto, Date fechaInicio, String pagosId) {
-        this.planesPagosPK = planesPagosPK;
+    public PlanPago(PlanPagoPK planPagoPK, Date fechaVto, Date fechaInicio, String pagosId) {
+        this.planPagoPK = planPagoPK;
         this.fechaVto = fechaVto;
         this.fechaInicio = fechaInicio;
         this.pagosId = pagosId;
     }
 
-    public PlanesPagos(int nroCuota, int nroCredito) {
-        this.planesPagosPK = new PlanesPagosPK(nroCuota, nroCredito);
+    public PlanPago(int nroCuota, int nroCredito) {
+        this.planPagoPK = new PlanPagoPK(nroCuota, nroCredito);
     }
 
-    public PlanesPagosPK getPlanesPagosPK() {
-        return planesPagosPK;
+    public PlanPagoPK getPlanPagoPK() {
+        return planPagoPK;
     }
 
-    public void setPlanesPagosPK(PlanesPagosPK planesPagosPK) {
-        this.planesPagosPK = planesPagosPK;
+    public void setPlanPagoPK(PlanPagoPK planPagoPK) {
+        this.planPagoPK = planPagoPK;
     }
 
     public Date getFechaVto() {
@@ -195,29 +181,29 @@ public class PlanesPagos implements Serializable {
         this.credito = credito;
     }
 
-    public List<Pagos> getPagosList() {
-        return pagosList;
+    public List<Pago> getPagoList() {
+        return pagoList;
     }
 
-    public void setPagosList(List<Pagos> pagosList) {
-        this.pagosList = pagosList;
+    public void setPagoList(List<Pago> pagoList) {
+        this.pagoList = pagoList;
     }
 
     @Override
     public int hashCode() {
         int hash = 0;
-        hash += (planesPagosPK != null ? planesPagosPK.hashCode() : 0);
+        hash += (planPagoPK != null ? planPagoPK.hashCode() : 0);
         return hash;
     }
 
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof PlanesPagos)) {
+        if (!(object instanceof PlanPago)) {
             return false;
         }
-        PlanesPagos other = (PlanesPagos) object;
-        if ((this.planesPagosPK == null && other.planesPagosPK != null) || (this.planesPagosPK != null && !this.planesPagosPK.equals(other.planesPagosPK))) {
+        PlanPago other = (PlanPago) object;
+        if ((this.planPagoPK == null && other.planPagoPK != null) || (this.planPagoPK != null && !this.planPagoPK.equals(other.planPagoPK))) {
             return false;
         }
         return true;
@@ -225,7 +211,7 @@ public class PlanesPagos implements Serializable {
 
     @Override
     public String toString() {
-        return "entiappfinanza.PlanesPagos[ planesPagosPK=" + planesPagosPK + " ]";
+        return "entiappfinanza.PlanPago[ planPagoPK=" + planPagoPK + " ]";
     }
     
 }

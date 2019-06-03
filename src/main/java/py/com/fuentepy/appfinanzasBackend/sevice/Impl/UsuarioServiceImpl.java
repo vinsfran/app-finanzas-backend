@@ -1,7 +1,5 @@
 package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
 
-import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
-import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,8 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
+import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
 import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class UsuarioServiceImpl implements UsuarioService, UserDetailsService {
         List<GrantedAuthority> authorities = usuario.getRoles()
                 .stream()
                 .map(role -> new SimpleGrantedAuthority(role.getNombre()))
-                .peek(authority -> logger.info("Role: ".concat(authority.getAuthority())))
+                .peek(authority -> logger.info("Rol: ".concat(authority.getAuthority())))
                 .collect(Collectors.toList());
         return new User(usuario.getUsername(), usuario.getPassword(), usuario.getEnabled(), true, true, true, authorities);
     }

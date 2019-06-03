@@ -1,23 +1,9 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
+import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinColumns;
-import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 
 /**
  *
@@ -25,9 +11,7 @@ import javax.validation.constraints.Size;
  */
 @Entity
 @Table(name = "pagos")
-@NamedQueries({
-    @NamedQuery(name = "Pagos.findAll", query = "SELECT p FROM Pagos p")})
-public class Pagos implements Serializable {
+public class Pago implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -54,18 +38,18 @@ public class Pagos implements Serializable {
         @JoinColumn(name = "nro_cuota", referencedColumnName = "nro_cuota")
         , @JoinColumn(name = "nro_credito", referencedColumnName = "nro_credito")})
     @ManyToOne(optional = false)
-    private PlanesPagos planesPagos;
+    private PlanPago planPago;
     @JoinColumn(name = "tipo_pago_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private TiposPagos tipoPagoId;
+    private TipoPago tipoPagoId;
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private Usuarios usuarioId;
+    private Usuario usuarioId;
 
-    public Pagos() {
+    public Pago() {
     }
 
-    public Pagos(Integer nroPago) {
+    public Pago(Integer nroPago) {
         this.nroPago = nroPago;
     }
 
@@ -109,27 +93,27 @@ public class Pagos implements Serializable {
         this.impuestos = impuestos;
     }
 
-    public PlanesPagos getPlanesPagos() {
-        return planesPagos;
+    public PlanPago getPlanPago() {
+        return planPago;
     }
 
-    public void setPlanesPagos(PlanesPagos planesPagos) {
-        this.planesPagos = planesPagos;
+    public void setPlanPago(PlanPago planPago) {
+        this.planPago = planPago;
     }
 
-    public TiposPagos getTipoPagoId() {
+    public TipoPago getTipoPagoId() {
         return tipoPagoId;
     }
 
-    public void setTipoPagoId(TiposPagos tipoPagoId) {
+    public void setTipoPagoId(TipoPago tipoPagoId) {
         this.tipoPagoId = tipoPagoId;
     }
 
-    public Usuarios getUsuarioId() {
+    public Usuario getUsuarioId() {
         return usuarioId;
     }
 
-    public void setUsuarioId(Usuarios usuarioId) {
+    public void setUsuarioId(Usuario usuarioId) {
         this.usuarioId = usuarioId;
     }
 
@@ -143,10 +127,10 @@ public class Pagos implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pagos)) {
+        if (!(object instanceof Pago)) {
             return false;
         }
-        Pagos other = (Pagos) object;
+        Pago other = (Pago) object;
         if ((this.nroPago == null && other.nroPago != null) || (this.nroPago != null && !this.nroPago.equals(other.nroPago))) {
             return false;
         }
@@ -155,7 +139,7 @@ public class Pagos implements Serializable {
 
     @Override
     public String toString() {
-        return "entiappfinanza.Pagos[ nroPago=" + nroPago + " ]";
+        return "entiappfinanza.Pago[ nroPago=" + nroPago + " ]";
     }
     
 }

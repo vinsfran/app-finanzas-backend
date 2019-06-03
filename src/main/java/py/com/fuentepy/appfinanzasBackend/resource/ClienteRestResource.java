@@ -1,6 +1,7 @@
 package py.com.fuentepy.appfinanzasBackend.resource;
 
 import py.com.fuentepy.appfinanzasBackend.entity.Cliente;
+import py.com.fuentepy.appfinanzasBackend.model.ResponseBasePageClienteModel;
 import py.com.fuentepy.appfinanzasBackend.sevice.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -12,6 +13,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
 import java.util.HashMap;
@@ -32,10 +34,11 @@ public class ClienteRestResource {
         return clienteService.findAll();
     }
 
-    @GetMapping("/clientes/page/{page}")
-    public Page<Cliente> index(@PathVariable Integer page) {
-        Pageable pageable = PageRequest.of(page, 4);
-        return clienteService.findAll(pageable);
+    @GetMapping("/clientes/page")
+    public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
+        Page<Cliente> clientes = clienteService.findAll(pageable);
+        ResponseBasePageClienteModel responseBaseMenuPageModel = new ResponseBasePageClienteModel(HttpStatus.OK.value(), true, "OK", clientes);
+        return new ResponseEntity<>(responseBaseMenuPageModel, HttpStatus.OK);
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})

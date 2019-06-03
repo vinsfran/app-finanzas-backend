@@ -1,51 +1,41 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author vinsfran
  */
 @Entity
-@Table(name = "tipos_cobros")
-@NamedQueries({
-    @NamedQuery(name = "TiposCobros.findAll", query = "SELECT t FROM TiposCobros t")})
-public class TiposCobros implements Serializable {
+@Table(name = "tipos_pagos")
+public class TipoPago implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @NotNull
     @Column(name = "id")
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 45)
     @Column(name = "descripcion")
     private String descripcion;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoCobroId")
-    private List<Ahorros> ahorrosList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPagoId")
+    private List<Pago> pagoList;
 
-    public TiposCobros() {
+    public TipoPago() {
     }
 
-    public TiposCobros(Integer id) {
+    public TipoPago(Integer id) {
         this.id = id;
     }
 
-    public TiposCobros(Integer id, String descripcion) {
+    public TipoPago(Integer id, String descripcion) {
         this.id = id;
         this.descripcion = descripcion;
     }
@@ -66,12 +56,12 @@ public class TiposCobros implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public List<Ahorros> getAhorrosList() {
-        return ahorrosList;
+    public List<Pago> getPagoList() {
+        return pagoList;
     }
 
-    public void setAhorrosList(List<Ahorros> ahorrosList) {
-        this.ahorrosList = ahorrosList;
+    public void setPagoList(List<Pago> pagoList) {
+        this.pagoList = pagoList;
     }
 
     @Override
@@ -84,10 +74,10 @@ public class TiposCobros implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TiposCobros)) {
+        if (!(object instanceof TipoPago)) {
             return false;
         }
-        TiposCobros other = (TiposCobros) object;
+        TipoPago other = (TipoPago) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -96,7 +86,7 @@ public class TiposCobros implements Serializable {
 
     @Override
     public String toString() {
-        return "entiappfinanza.TiposCobros[ id=" + id + " ]";
+        return "entiappfinanza.TipoPago[ id=" + id + " ]";
     }
     
 }

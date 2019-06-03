@@ -1,28 +1,18 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
-import java.io.Serializable;
-import java.util.List;
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.NamedQueries;
-import javax.persistence.NamedQuery;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import java.io.Serializable;
+import java.util.List;
 
 /**
  *
  * @author vinsfran
  */
 @Entity
-@Table(name = "tipos_ahorros")
-@NamedQueries({
-    @NamedQuery(name = "TiposAhorros.findAll", query = "SELECT t FROM TiposAhorros t")})
-public class TiposAhorros implements Serializable {
+@Table(name = "monedas")
+public class Moneda implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -32,28 +22,30 @@ public class TiposAhorros implements Serializable {
     private Integer id;
     @Basic(optional = false)
     @NotNull
-    @Size(min = 1, max = 255)
+    @Size(min = 1, max = 45)
     @Column(name = "descripcion")
     private String descripcion;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "nombre")
-    private String nombre;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tiposAhorrosId")
-    private List<Ahorros> ahorrosList;
+    @Column(name = "codigo")
+    private String codigo;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monedaId")
+    private List<Credito> creditoList;
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monedaId")
+    private List<Ahorro> ahorroList;
 
-    public TiposAhorros() {
+    public Moneda() {
     }
 
-    public TiposAhorros(Integer id) {
+    public Moneda(Integer id) {
         this.id = id;
     }
 
-    public TiposAhorros(Integer id, String descripcion, String nombre) {
+    public Moneda(Integer id, String descripcion, String codigo) {
         this.id = id;
         this.descripcion = descripcion;
-        this.nombre = nombre;
+        this.codigo = codigo;
     }
 
     public Integer getId() {
@@ -72,20 +64,28 @@ public class TiposAhorros implements Serializable {
         this.descripcion = descripcion;
     }
 
-    public String getNombre() {
-        return nombre;
+    public String getCodigo() {
+        return codigo;
     }
 
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
     }
 
-    public List<Ahorros> getAhorrosList() {
-        return ahorrosList;
+    public List<Credito> getCreditoList() {
+        return creditoList;
     }
 
-    public void setAhorrosList(List<Ahorros> ahorrosList) {
-        this.ahorrosList = ahorrosList;
+    public void setCreditoList(List<Credito> creditoList) {
+        this.creditoList = creditoList;
+    }
+
+    public List<Ahorro> getAhorroList() {
+        return ahorroList;
+    }
+
+    public void setAhorroList(List<Ahorro> ahorroList) {
+        this.ahorroList = ahorroList;
     }
 
     @Override
@@ -98,10 +98,10 @@ public class TiposAhorros implements Serializable {
     @Override
     public boolean equals(Object object) {
         // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof TiposAhorros)) {
+        if (!(object instanceof Moneda)) {
             return false;
         }
-        TiposAhorros other = (TiposAhorros) object;
+        Moneda other = (Moneda) object;
         if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
             return false;
         }
@@ -110,7 +110,7 @@ public class TiposAhorros implements Serializable {
 
     @Override
     public String toString() {
-        return "entiappfinanza.TiposAhorros[ id=" + id + " ]";
+        return "entiappfinanza.Moneda[ id=" + id + " ]";
     }
     
 }
