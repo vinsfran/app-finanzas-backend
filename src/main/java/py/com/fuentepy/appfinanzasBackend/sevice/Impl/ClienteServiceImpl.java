@@ -26,7 +26,7 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional(readOnly = true)
     public Page<Cliente> findAll(Pageable pageable) {
-        return clienteDao.findAllByOrderByIdAsc(pageable);
+        return clienteDao.findAll(pageable);
     }
 
     @Override

@@ -36,9 +36,22 @@ public class ClienteRestResource {
 
     @GetMapping("/clientes/page")
     public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
-        Page<Cliente> clientes = clienteService.findAll(pageable);
-        ResponseBasePageClienteModel responseBaseMenuPageModel = new ResponseBasePageClienteModel(HttpStatus.OK.value(), true, "OK", clientes);
-        return new ResponseEntity<>(responseBaseMenuPageModel, HttpStatus.OK);
+        Page<Cliente> clientes = null;
+        Map<String, Object> response = new HashMap<>();
+        try {
+            clientes = clienteService.findAll(pageable);
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos!");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (clientes == null) {
+            response.put("mensaje", "No existen clientes en la base de datos!");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        response.put("page", clientes);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
