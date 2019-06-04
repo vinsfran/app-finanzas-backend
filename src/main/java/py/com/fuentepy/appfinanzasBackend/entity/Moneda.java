@@ -20,18 +20,22 @@ public class Moneda implements Serializable {
     @NotNull
     @Column(name = "id")
     private Integer id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "descripcion")
     private String descripcion;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "codigo")
     private String codigo;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "monedaId")
     private List<Credito> creditoList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "monedaId")
     private List<Ahorro> ahorroList;
 

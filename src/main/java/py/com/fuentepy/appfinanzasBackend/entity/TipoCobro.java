@@ -15,16 +15,19 @@ import java.util.List;
 public class TipoCobro implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @Basic(optional = false)
     @NotNull
     @Column(name = "id")
     private Integer id;
+
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
     @Column(name = "descripcion")
     private String descripcion;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoCobroId")
     private List<Ahorro> ahorroList;
 
