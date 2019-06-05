@@ -12,9 +12,9 @@ public interface TipoPagoService {
 
     Page<TipoPago> findAll(Pageable pageable);
 
-    TipoPago findById(Long id);
+    TipoPago findById(Integer id);
 
     TipoPago save(TipoPago tipoCobro);
 
-    void delete(Long id);
+    void delete(Integer id);
 }

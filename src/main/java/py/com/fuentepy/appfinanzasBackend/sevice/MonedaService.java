@@ -12,9 +12,9 @@ public interface MonedaService {
 
     Page<Moneda> findAll(Pageable pageable);
 
-    Moneda findById(Long id);
+    Moneda findById(Integer id);
 
     Moneda save(Moneda moneda);
 
-    void delete(Long id);
+    void delete(Integer id);
 }

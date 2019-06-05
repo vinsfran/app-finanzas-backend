@@ -31,7 +31,7 @@ public class MonedaServiceImpl implements MonedaService {
 
     @Override
     @Transactional(readOnly = true)
-    public Moneda findById(Long id) {
+    public Moneda findById(Integer id) {
         return monedaRepository.findById(id).orElse(null);
     }
 
@@ -43,7 +43,7 @@ public class MonedaServiceImpl implements MonedaService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         monedaRepository.deleteById(id);
     }
 }

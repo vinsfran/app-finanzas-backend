@@ -54,7 +54,7 @@ public class TipoAhorroResource {
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/tipoAhorros/{id}")
-    public ResponseEntity<?> show(@PathVariable Long id) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
         TipoAhorro tipoAhorro = null;
         Map<String, Object> response = new HashMap<>();
         try {
@@ -111,7 +111,7 @@ public class TipoAhorroResource {
 
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/tipoAhorros/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody TipoAhorro tipoAhorro, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody TipoAhorro tipoAhorro, BindingResult result, @PathVariable Integer id) {
         TipoAhorro tipoAhorroActual = tipoAhorroService.findById(id);
         TipoAhorro tipoAhorroUpdated = null;
         Map<String, Object> response = new HashMap<>();
@@ -152,7 +152,7 @@ public class TipoAhorroResource {
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/tipoAhorros/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         Map<String, Object> response = new HashMap<>();
         try {
             tipoAhorroService.delete(id);

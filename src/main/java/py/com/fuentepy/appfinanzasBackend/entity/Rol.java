@@ -1,8 +1,13 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
+import lombok.Data;
+import lombok.extern.apachecommons.CommonsLog;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
+@Data
+@CommonsLog
 @Entity
 @Table(name = "roles")
 public class Rol implements Serializable {
@@ -17,19 +22,4 @@ public class Rol implements Serializable {
     @Column(unique = true, length = 20, nullable = false)
     private String nombre;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
 }

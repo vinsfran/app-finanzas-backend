@@ -12,9 +12,9 @@ public interface TipoCobroService {
 
     Page<TipoCobro> findAll(Pageable pageable);
 
-    TipoCobro findById(Long id);
+    TipoCobro findById(Integer id);
 
     TipoCobro save(TipoCobro tipoCobro);
 
-    void delete(Long id);
+    void delete(Integer id);
 }

@@ -31,7 +31,7 @@ public class TipoAhorroServiceImpl implements TipoAhorroService {
 
     @Override
     @Transactional(readOnly = true)
-    public TipoAhorro findById(Long id) {
+    public TipoAhorro findById(Integer id) {
         return tipoAhorroRepository.findById(id).orElse(null);
     }
 
@@ -43,7 +43,7 @@ public class TipoAhorroServiceImpl implements TipoAhorroService {
 
     @Override
     @Transactional
-    public void delete(Long id) {
+    public void delete(Integer id) {
         tipoAhorroRepository.deleteById(id);
     }
 }

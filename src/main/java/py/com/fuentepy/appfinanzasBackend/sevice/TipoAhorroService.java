@@ -12,9 +12,9 @@ public interface TipoAhorroService {
 
     Page<TipoAhorro> findAll(Pageable pageable);
 
-    TipoAhorro findById(Long id);
+    TipoAhorro findById(Integer id);
 
     TipoAhorro save(TipoAhorro tipoAhorro);
 
-    void delete(Long id);
+    void delete(Integer id);
 }

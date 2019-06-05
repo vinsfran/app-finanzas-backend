@@ -54,7 +54,7 @@ public class MonedaResource {
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/monedas/{id}")
-    public ResponseEntity<?> show(@PathVariable Long id) {
+    public ResponseEntity<?> show(@PathVariable Integer id) {
         Moneda moneda = null;
         Map<String, Object> response = new HashMap<>();
         try {
@@ -111,7 +111,7 @@ public class MonedaResource {
 
     @Secured({"ROLE_ADMIN"})
     @PutMapping("/monedas/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Moneda moneda, BindingResult result, @PathVariable Long id) {
+    public ResponseEntity<?> update(@Valid @RequestBody Moneda moneda, BindingResult result, @PathVariable Integer id) {
         Moneda monedaActual = monedaService.findById(id);
         Moneda monedaUpdated = null;
         Map<String, Object> response = new HashMap<>();
@@ -152,7 +152,7 @@ public class MonedaResource {
     @Secured({"ROLE_ADMIN"})
     @DeleteMapping("/monedas/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> delete(@PathVariable Long id) {
+    public ResponseEntity<?> delete(@PathVariable Integer id) {
         Map<String, Object> response = new HashMap<>();
         try {
             monedaService.delete(id);

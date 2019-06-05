@@ -5,7 +5,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import py.com.fuentepy.appfinanzasBackend.entity.TipoPago;
 
-public interface TipoPagoRepository extends JpaRepository<TipoPago, Long> {
+public interface TipoPagoRepository extends JpaRepository<TipoPago, Integer> {
 
     Page<TipoPago> findAllByOrderByIdAsc(Pageable pageable);
 
