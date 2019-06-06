@@ -1,5 +1,7 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
@@ -22,23 +24,26 @@ import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 /**
- *
  * @author vinsfran
  */
+@Data
 @Entity
 @Table(name = "credito")
 public class Credito implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "nro_credito")
     private Integer nroCredito;
+
     @Lob
     @Size(max = 16777215)
     @Column(name = "monto_desembolsado")
     private String montoDesembolsado;
+
     @Lob
     @Size(max = 16777215)
     @Column(name = "total_capital")
@@ -73,173 +78,16 @@ public class Credito implements Serializable {
     private String destinoCredito;
     @Column(name = "estado")
     private Boolean estado;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
     private List<PlanPago> planPagoList;
+
     @JoinColumn(name = "entidade_financiera_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private EntidadFinanciera entidadeFinancieraId;
+
     @JoinColumn(name = "moneda_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Moneda monedaId;
 
-    public Credito() {
-    }
-
-    public Credito(Integer nroCredito) {
-        this.nroCredito = nroCredito;
-    }
-
-    public Integer getNroCredito() {
-        return nroCredito;
-    }
-
-    public void setNroCredito(Integer nroCredito) {
-        this.nroCredito = nroCredito;
-    }
-
-    public String getMontoDesembolsado() {
-        return montoDesembolsado;
-    }
-
-    public void setMontoDesembolsado(String montoDesembolsado) {
-        this.montoDesembolsado = montoDesembolsado;
-    }
-
-    public String getTotalCapital() {
-        return totalCapital;
-    }
-
-    public void setTotalCapital(String totalCapital) {
-        this.totalCapital = totalCapital;
-    }
-
-    public String getTotalInteres() {
-        return totalInteres;
-    }
-
-    public void setTotalInteres(String totalInteres) {
-        this.totalInteres = totalInteres;
-    }
-
-    public String getTazaTan() {
-        return tazaTan;
-    }
-
-    public void setTazaTan(String tazaTan) {
-        this.tazaTan = tazaTan;
-    }
-
-    public String getTazaTae() {
-        return tazaTae;
-    }
-
-    public void setTazaTae(String tazaTae) {
-        this.tazaTae = tazaTae;
-    }
-
-    public Date getFechaDesembolso() {
-        return fechaDesembolso;
-    }
-
-    public void setFechaDesembolso(Date fechaDesembolso) {
-        this.fechaDesembolso = fechaDesembolso;
-    }
-
-    public Date getFechaVencimiento() {
-        return fechaVencimiento;
-    }
-
-    public void setFechaVencimiento(Date fechaVencimiento) {
-        this.fechaVencimiento = fechaVencimiento;
-    }
-
-    public Integer getPlazoTotal() {
-        return plazoTotal;
-    }
-
-    public void setPlazoTotal(Integer plazoTotal) {
-        this.plazoTotal = plazoTotal;
-    }
-
-    public Integer getCantidadCuotas() {
-        return cantidadCuotas;
-    }
-
-    public void setCantidadCuotas(Integer cantidadCuotas) {
-        this.cantidadCuotas = cantidadCuotas;
-    }
-
-    public String getProductoDescripcion() {
-        return productoDescripcion;
-    }
-
-    public void setProductoDescripcion(String productoDescripcion) {
-        this.productoDescripcion = productoDescripcion;
-    }
-
-    public String getDestinoCredito() {
-        return destinoCredito;
-    }
-
-    public void setDestinoCredito(String destinoCredito) {
-        this.destinoCredito = destinoCredito;
-    }
-
-    public Boolean getEstado() {
-        return estado;
-    }
-
-    public void setEstado(Boolean estado) {
-        this.estado = estado;
-    }
-
-    public List<PlanPago> getPlanPagoList() {
-        return planPagoList;
-    }
-
-    public void setPlanPagoList(List<PlanPago> planPagoList) {
-        this.planPagoList = planPagoList;
-    }
-
-    public EntidadFinanciera getEntidadeFinancieraId() {
-        return entidadeFinancieraId;
-    }
-
-    public void setEntidadeFinancieraId(EntidadFinanciera entidadeFinancieraId) {
-        this.entidadeFinancieraId = entidadeFinancieraId;
-    }
-
-    public Moneda getMonedaId() {
-        return monedaId;
-    }
-
-    public void setMonedaId(Moneda monedaId) {
-        this.monedaId = monedaId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (nroCredito != null ? nroCredito.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Credito)) {
-            return false;
-        }
-        Credito other = (Credito) object;
-        if ((this.nroCredito == null && other.nroCredito != null) || (this.nroCredito != null && !this.nroCredito.equals(other.nroCredito))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entiappfinanza.Credito[ nroCredito=" + nroCredito + " ]";
-    }
-    
 }

@@ -16,6 +16,7 @@ import java.util.List;
 public class PlanPago implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @EmbeddedId
     protected PlanPagoPK planPagoPK;
     @Basic(optional = false)

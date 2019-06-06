@@ -11,10 +11,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import py.com.fuentepy.appfinanzasBackend.converter.EntidadFinancieraConverter;
-import py.com.fuentepy.appfinanzasBackend.entity.EntidadFinanciera;
-import py.com.fuentepy.appfinanzasBackend.model.EntidadFinancieraModel;
-import py.com.fuentepy.appfinanzasBackend.sevice.EntidadFinancieraService;
+import py.com.fuentepy.appfinanzasBackend.entity.Credito;
+import py.com.fuentepy.appfinanzasBackend.sevice.CreditoService;
 import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
 import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 import springfox.documentation.annotations.ApiIgnore;
@@ -28,51 +26,51 @@ import java.util.stream.Collectors;
 @CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
 @RequestMapping("/api")
-public class EntidadFinancieraResource {
+public class CreditoResource {
 
-    private static final Log LOG = LogFactory.getLog(EntidadFinancieraResource.class);
+    private static final Log LOG = LogFactory.getLog(CreditoResource.class);
 
     @Autowired
-    private EntidadFinancieraService entidadFinancieraService;
+    private CreditoService creditoService;
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/entidadesFinancieras")
-    public List<EntidadFinanciera> index() {
-        return entidadFinancieraService.findAll();
+    @GetMapping("/creditos")
+    public List<Credito> index() {
+        return creditoService.findAll();
     }
 
-    @GetMapping("/entidadesFinancieras/page")
+    @GetMapping("/creditos/page")
     public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
-        Page<EntidadFinanciera> entidadesFinancieras = null;
-        Page<EntidadFinancieraModel> entidadesFinancierasModels = null;
+        Page<Credito> creditos = null;
+//        Page<CreditoModel> creditosModels = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            entidadesFinancieras = entidadFinancieraService.findAll(pageable);
-            entidadesFinancierasModels = EntidadFinancieraConverter.pageEntitytoPageModel(pageable, entidadesFinancieras);
-//            entidadesFinancieras.getTotalPages()
+            creditos = creditoService.findAll(pageable);
+//            creditosModels = CreditoConverter.pageEntitytoPageModel(pageable, creditos);
+//            creditos.getTotalPages()
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (entidadesFinancieras == null) {
-            response.put("mensaje", "No existen entidadesFinancieras en la base de datos!");
+        if (creditos == null) {
+            response.put("mensaje", "No existen creditos en la base de datos!");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        response.put("page", entidadesFinancierasModels);
+        response.put("page", creditos);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping("/entidadesFinancieras/{id}")
+    @GetMapping("/creditos/{id}")
     public ResponseEntity<?> show(@PathVariable Integer id) {
-        EntidadFinanciera entidadFinanciera = null;
+        Credito credito = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            entidadFinanciera = entidadFinancieraService.findById(id);
+            credito = creditoService.findById(id);
 
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la en la base de datos!");
@@ -81,22 +79,22 @@ public class EntidadFinancieraResource {
         }
 
 
-        if (entidadFinanciera == null) {
-            response.put("mensaje", "La Entidad Financiera ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
+        if (credito == null) {
+            response.put("mensaje", "El Credito ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(entidadFinanciera, HttpStatus.OK);
+        return new ResponseEntity<>(credito, HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PostMapping("/entidadesFinancieras")
+    @PostMapping("/creditos")
     public ResponseEntity<?> create(@RequestHeader("Authorization") String authorization,
-                                    @Valid @RequestBody EntidadFinanciera entidadFinanciera, BindingResult result) {
+                                    @Valid @RequestBody Credito credito, BindingResult result) {
 
 
         Long id = TokenUtil.getIdFromToken(authorization);
         LOG.info("id: " + id);
-        EntidadFinanciera entidadFinancieraNew = null;
+        Credito creditoNew = null;
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
@@ -117,22 +115,22 @@ public class EntidadFinancieraResource {
         }
 
         try {
-            entidadFinancieraNew = entidadFinancieraService.save(entidadFinanciera, id);
+            creditoNew = creditoService.save(credito);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "La Entidad Financiera ha sido creada con éxito!");
-        response.put("entidadFinanciera", EntidadFinancieraConverter.entitytoModel(entidadFinancieraNew));
+        response.put("mensaje", "El Credito ha sido creada con éxito!");
+        response.put("credito", creditoNew);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PutMapping("/entidadesFinancieras/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody EntidadFinanciera entidadFinanciera, BindingResult result, @PathVariable Integer id) {
-        EntidadFinanciera entidadFinancieraActual = entidadFinancieraService.findById(id);
-        EntidadFinanciera entidadFinancieraUpdated = null;
+    @PutMapping("/creditos/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody Credito credito, BindingResult result, @PathVariable Integer id) {
+        Credito creditoActual = creditoService.findById(id);
+        Credito creditoUpdated = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
@@ -150,44 +148,44 @@ public class EntidadFinancieraResource {
             response.put("errors", errors);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        if (entidadFinancieraActual == null) {
+        if (creditoActual == null) {
             response.put("mensaje", "Error: no se pudo editar, la Entidad Financiera ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            entidadFinancieraActual.setNombre(entidadFinanciera.getNombre());
-            entidadFinancieraUpdated = entidadFinancieraService.save(entidadFinancieraActual, null);
+            creditoActual.setCantidadCuotas(credito.getCantidadCuotas());
+            creditoUpdated = creditoService.save(creditoActual);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "La Entidad Financiera ha sido actualizado con éxito!");
-        response.put("entidadFinanciera", entidadFinancieraUpdated);
+        response.put("mensaje", "El Credito ha sido actualizado con éxito!");
+        response.put("credito", creditoUpdated);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @DeleteMapping("/entidadesFinancieras/{id}")
+    @DeleteMapping("/creditos/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         Map<String, Object> response = new HashMap<>();
         try {
-            entidadFinancieraService.delete(id);
+            creditoService.delete(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al eliminar la Entidad Financiera de la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "La Entidad Financiera eliminado con éxito!");
+        response.put("mensaje", "El Credito eliminado con éxito!");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 //    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-//    @PostMapping("/entidadesFinancieras/upload")
+//    @PostMapping("/creditos/upload")
 
 //    @GetMapping("/uploads/img/{nombreFoto:.+}")
 
 //    @Secured({"ROLE_ADMIN"})
-//    @GetMapping("/entidadesFinancieras/regiones")
+//    @GetMapping("/creditos/regiones")
 }

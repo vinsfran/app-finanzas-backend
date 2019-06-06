@@ -14,6 +14,7 @@ import java.util.Date;
 public class Pago implements Serializable {
 
     private static final long serialVersionUID = 1L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
@@ -30,18 +31,22 @@ public class Pago implements Serializable {
     @Size(max = 16777215)
     @Column(name = "interes")
     private String interes;
+
     @Lob
     @Size(max = 16777215)
     @Column(name = "impuestos")
     private String impuestos;
+
     @JoinColumns({
         @JoinColumn(name = "nro_cuota", referencedColumnName = "nro_cuota")
         , @JoinColumn(name = "nro_credito", referencedColumnName = "nro_credito")})
     @ManyToOne(optional = false)
     private PlanPago planPago;
+
     @JoinColumn(name = "tipo_pago_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoPago tipoPagoId;
+
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario usuarioId;
