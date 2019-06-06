@@ -24,11 +24,14 @@ public class EntidadFinanciera implements Serializable {
     @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
+
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario usuarioId;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadeFinancieraId")
     private List<Credito> creditoList;
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadeFinancieraId")
     private List<Ahorro> ahorroList;
 
