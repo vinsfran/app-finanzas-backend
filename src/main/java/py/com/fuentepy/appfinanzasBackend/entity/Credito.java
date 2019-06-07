@@ -28,7 +28,7 @@ import javax.validation.constraints.Size;
  */
 @Data
 @Entity
-@Table(name = "credito")
+@Table(name = "creditos")
 public class Credito implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -36,6 +36,9 @@ public class Credito implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
+    @Column(name = "id")
+    private Long id;
+
     @Column(name = "nro_credito")
     private Integer nroCredito;
 
@@ -79,12 +82,12 @@ public class Credito implements Serializable {
     @Column(name = "estado")
     private Boolean estado;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "credito")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "creditoId")
     private List<PlanPago> planPagoList;
 
-    @JoinColumn(name = "entidade_financiera_id", referencedColumnName = "id")
+    @JoinColumn(name = "entidad_financiera_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private EntidadFinanciera entidadeFinancieraId;
+    private EntidadFinanciera entidadFinancieraId;
 
     @JoinColumn(name = "moneda_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

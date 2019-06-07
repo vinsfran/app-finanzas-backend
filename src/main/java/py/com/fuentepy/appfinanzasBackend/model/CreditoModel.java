@@ -12,11 +12,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- *
  * @author vinsfran
  */
 @Data
 public class CreditoModel implements Serializable {
+
+    @JsonProperty("id")
+    @SerializedName("id")
+    private Long id;
 
     @JsonProperty("nroCredito")
     @SerializedName("nroCredito")
@@ -70,12 +73,24 @@ public class CreditoModel implements Serializable {
     @SerializedName("estado")
     private Boolean estado;
 
-    @JsonProperty("entidadeFinancieraId")
-    @SerializedName("entidadeFinancieraId")
-    private Integer entidadeFinancieraId;
+    @JsonProperty("entidadFinancieraId")
+    @SerializedName("entidadFinancieraId")
+    private Integer entidadFinancieraId;
+
+    @JsonProperty("entidadFinancieraNombre")
+    @SerializedName("entidadFinancieraNombre")
+    private String entidadFinancieraNombre;
 
     @JsonProperty("monedaId")
     @SerializedName("monedaId")
     private Integer monedaId;
-    
+
+    @JsonProperty("monedaDescripcion")
+    @SerializedName("monedaDescripcion")
+    private String monedaDescripcion;
+
+    @JsonProperty("monedaCodigo")
+    @SerializedName("monedaCodigo")
+    private String monedaCodigo;
+
 }

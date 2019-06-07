@@ -22,3 +22,13 @@ INSERT INTO roles (nombre) VALUES ('ROLE_ADMIN');
 INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (1, 1);
 INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (2, 2);
 INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (2, 1);
+
+
+INSERT INTO monedas (codigo, descripcion) VALUES ('Gs.', 'Guarani');
+INSERT INTO monedas (codigo, descripcion) VALUES ('Us.', 'Dolar');
+INSERT INTO monedas (codigo, descripcion) VALUES ('Ps.', 'Peso Argentino');
+
+INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('BANCO ITAU', 2);
+INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('BANCO BBVA', 2);
+INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('BANCO CONTINENTAL', 2);
+INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('FINANCIERA EL COMERCIO', 2);

@@ -1,14 +1,16 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.List;
 
 /**
- *
  * @author vinsfran
  */
+@Data
 @Entity
 @Table(name = "entidades_financieras")
 public class EntidadFinanciera implements Serializable {
@@ -25,86 +27,14 @@ public class EntidadFinanciera implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    @JoinColumn(name = "usuarios_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario usuarioId;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadeFinancieraId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadFinancieraId")
     private List<Credito> creditoList;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadeFinancieraId")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadFinancieraId")
     private List<Ahorro> ahorroList;
 
-    public EntidadFinanciera() {
-    }
-
-    public EntidadFinanciera(Integer id) {
-        this.id = id;
-    }
-
-    public Integer getId() {
-        return id;
-    }
-
-    public void setId(Integer id) {
-        this.id = id;
-    }
-
-    public String getNombre() {
-        return nombre;
-    }
-
-    public void setNombre(String nombre) {
-        this.nombre = nombre;
-    }
-
-    public Usuario getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    public List<Credito> getCreditoList() {
-        return creditoList;
-    }
-
-    public void setCreditoList(List<Credito> creditoList) {
-        this.creditoList = creditoList;
-    }
-
-    public List<Ahorro> getAhorroList() {
-        return ahorroList;
-    }
-
-    public void setAhorroList(List<Ahorro> ahorroList) {
-        this.ahorroList = ahorroList;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (id != null ? id.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof EntidadFinanciera)) {
-            return false;
-        }
-        EntidadFinanciera other = (EntidadFinanciera) object;
-        if ((this.id == null && other.id != null) || (this.id != null && !this.id.equals(other.id))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entiappfinanza.EntidadFinanciera[ id=" + id + " ]";
-    }
-    
 }

@@ -64,12 +64,12 @@ public class CreditoResource {
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping("/creditos/{nroCredito}")
-    public ResponseEntity<?> show(@PathVariable Integer nroCredito) {
+    @GetMapping("/creditos/{id}")
+    public ResponseEntity<?> show(@PathVariable Long id) {
         Credito credito = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            credito = creditoService.findByNroCredito(nroCredito);
+            credito = creditoService.findById(id);
 
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la en la base de datos!");
@@ -79,7 +79,7 @@ public class CreditoResource {
 
 
         if (credito == null) {
-            response.put("mensaje", "El Credito ID: ".concat(nroCredito.toString()).concat(" no existe en la base de datos!"));
+            response.put("mensaje", "El Credito ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         return new ResponseEntity<>(CreditoConverter.entitytoModel(credito), HttpStatus.OK);
@@ -126,9 +126,9 @@ public class CreditoResource {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PutMapping("/creditos/{nroCredito}")
-    public ResponseEntity<?> update(@Valid @RequestBody CreditoModel creditoModel, BindingResult result, @PathVariable Integer nroCredito) {
-        Credito creditoActual = creditoService.findByNroCredito(nroCredito);
+    @PutMapping("/creditos/{id}")
+    public ResponseEntity<?> update(@Valid @RequestBody CreditoModel creditoModel, BindingResult result, @PathVariable Long id) {
+        Credito creditoActual = creditoService.findById(id);
         Credito creditoUpdated = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
@@ -148,7 +148,7 @@ public class CreditoResource {
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
         if (creditoActual == null) {
-            response.put("mensaje", "Error: no se pudo editar, el Credito Nro: ".concat(nroCredito.toString()).concat(" no existe en la base de datos!"));
+            response.put("mensaje", "Error: no se pudo editar, el Credito Nro: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
@@ -165,12 +165,12 @@ public class CreditoResource {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @DeleteMapping("/creditos/{nroCredito}")
+    @DeleteMapping("/creditos/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> delete(@PathVariable Integer nroCredito) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         try {
-            creditoService.delete(nroCredito);
+            creditoService.delete(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al eliminar el Credito de la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

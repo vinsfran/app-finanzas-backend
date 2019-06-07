@@ -36,8 +36,8 @@ public class CreditoServiceImpl implements CreditoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Credito findByNroCredito(Integer nroCredito) {
-        return creditoRepository.findByNroCredito(nroCredito);
+    public Credito findById(Long id) {
+        return creditoRepository.findById(id).orElse(null);
     }
 
     @Override
@@ -48,7 +48,7 @@ public class CreditoServiceImpl implements CreditoService {
 
     @Override
     @Transactional
-    public void delete(Integer id) {
+    public void delete(Long id) {
         creditoRepository.deleteById(id);
     }
 }

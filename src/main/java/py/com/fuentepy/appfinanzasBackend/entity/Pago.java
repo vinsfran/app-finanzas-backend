@@ -1,5 +1,7 @@
 package py.com.fuentepy.appfinanzasBackend.entity;
 
+import lombok.Data;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
@@ -9,6 +11,7 @@ import java.util.Date;
  *
  * @author vinsfran
  */
+@Data
 @Entity
 @Table(name = "pagos")
 public class Pago implements Serializable {
@@ -18,8 +21,9 @@ public class Pago implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
-    @Column(name = "nro_pago")
-    private Integer nroPago;
+    @Column(name = "id")
+    private Integer id;
+
     @Column(name = "fecha_pago")
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
@@ -37,114 +41,16 @@ public class Pago implements Serializable {
     @Column(name = "impuestos")
     private String impuestos;
 
-    @JoinColumns({
-        @JoinColumn(name = "nro_cuota", referencedColumnName = "nro_cuota")
-        , @JoinColumn(name = "nro_credito", referencedColumnName = "nro_credito")})
+    @JoinColumn(name = "planes_pagos_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private PlanPago planPago;
+    private PlanPago planPagoId;
 
-    @JoinColumn(name = "tipo_pago_id", referencedColumnName = "id")
+    @JoinColumn(name = "tipos_pagos_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoPago tipoPagoId;
 
-    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
+    @JoinColumn(name = "usuarios_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario usuarioId;
 
-    public Pago() {
-    }
-
-    public Pago(Integer nroPago) {
-        this.nroPago = nroPago;
-    }
-
-    public Integer getNroPago() {
-        return nroPago;
-    }
-
-    public void setNroPago(Integer nroPago) {
-        this.nroPago = nroPago;
-    }
-
-    public Date getFechaPago() {
-        return fechaPago;
-    }
-
-    public void setFechaPago(Date fechaPago) {
-        this.fechaPago = fechaPago;
-    }
-
-    public String getCapital() {
-        return capital;
-    }
-
-    public void setCapital(String capital) {
-        this.capital = capital;
-    }
-
-    public String getInteres() {
-        return interes;
-    }
-
-    public void setInteres(String interes) {
-        this.interes = interes;
-    }
-
-    public String getImpuestos() {
-        return impuestos;
-    }
-
-    public void setImpuestos(String impuestos) {
-        this.impuestos = impuestos;
-    }
-
-    public PlanPago getPlanPago() {
-        return planPago;
-    }
-
-    public void setPlanPago(PlanPago planPago) {
-        this.planPago = planPago;
-    }
-
-    public TipoPago getTipoPagoId() {
-        return tipoPagoId;
-    }
-
-    public void setTipoPagoId(TipoPago tipoPagoId) {
-        this.tipoPagoId = tipoPagoId;
-    }
-
-    public Usuario getUsuarioId() {
-        return usuarioId;
-    }
-
-    public void setUsuarioId(Usuario usuarioId) {
-        this.usuarioId = usuarioId;
-    }
-
-    @Override
-    public int hashCode() {
-        int hash = 0;
-        hash += (nroPago != null ? nroPago.hashCode() : 0);
-        return hash;
-    }
-
-    @Override
-    public boolean equals(Object object) {
-        // TODO: Warning - this method won't work in the case the id fields are not set
-        if (!(object instanceof Pago)) {
-            return false;
-        }
-        Pago other = (Pago) object;
-        if ((this.nroPago == null && other.nroPago != null) || (this.nroPago != null && !this.nroPago.equals(other.nroPago))) {
-            return false;
-        }
-        return true;
-    }
-
-    @Override
-    public String toString() {
-        return "entiappfinanza.Pago[ nroPago=" + nroPago + " ]";
-    }
-    
 }
