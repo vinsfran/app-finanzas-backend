@@ -39,19 +39,16 @@ public class EntidadFinancieraResource {
     private UsuarioService usuarioService;
 
     @GetMapping("/entidadesFinancieras")
-    public List<EntidadFinanciera> index() {
-        return entidadFinancieraService.findAll();
+    public List<EntidadFinancieraModel> index() {
+        return EntidadFinancieraConverter.listEntitytoListModel(entidadFinancieraService.findAll());
     }
 
     @GetMapping("/entidadesFinancieras/page")
     public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
         Page<EntidadFinanciera> entidadesFinancieras = null;
-        Page<EntidadFinancieraModel> entidadesFinancierasModels = null;
         Map<String, Object> response = new HashMap<>();
         try {
             entidadesFinancieras = entidadFinancieraService.findAll(pageable);
-            entidadesFinancierasModels = EntidadFinancieraConverter.pageEntitytoPageModel(pageable, entidadesFinancieras);
-//            entidadesFinancieras.getTotalPages()
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -62,7 +59,7 @@ public class EntidadFinancieraResource {
             response.put("mensaje", "No existen entidadesFinancieras en la base de datos!");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        response.put("page", entidadesFinancierasModels);
+        response.put("page", EntidadFinancieraConverter.pageEntitytoPageModel(pageable, entidadesFinancieras));
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

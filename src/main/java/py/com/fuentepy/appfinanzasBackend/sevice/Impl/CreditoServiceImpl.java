@@ -36,8 +36,8 @@ public class CreditoServiceImpl implements CreditoService {
 
     @Override
     @Transactional(readOnly = true)
-    public Credito findById(Integer id) {
-        return creditoRepository.findById(id).orElse(null);
+    public Credito findByNroCredito(Integer nroCredito) {
+        return creditoRepository.findByNroCredito(nroCredito);
     }
 
     @Override

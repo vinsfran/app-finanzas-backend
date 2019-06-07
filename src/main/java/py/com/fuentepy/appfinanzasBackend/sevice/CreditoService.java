@@ -12,7 +12,7 @@ public interface CreditoService {
 
     Page<Credito> findAll(Pageable pageable);
 
-    Credito findById(Integer id);
+    Credito findByNroCredito(Integer nroCredito);
 
     Credito save(Credito cliente);
 

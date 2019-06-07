@@ -8,4 +8,6 @@ import py.com.fuentepy.appfinanzasBackend.entity.Credito;
 public interface CreditoRepository extends JpaRepository<Credito, Integer> {
 
     Page<Credito> findAll(Pageable pageable);
+
+    Credito findByNroCredito(Integer nroCredito);
 }

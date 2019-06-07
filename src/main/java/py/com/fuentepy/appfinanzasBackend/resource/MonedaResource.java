@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import py.com.fuentepy.appfinanzasBackend.converter.MonedaConverter;
 import py.com.fuentepy.appfinanzasBackend.entity.Moneda;
+import py.com.fuentepy.appfinanzasBackend.model.MonedaModel;
 import py.com.fuentepy.appfinanzasBackend.sevice.MonedaService;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -28,8 +30,8 @@ public class MonedaResource {
     private MonedaService monedaService;
 
     @GetMapping("/monedas")
-    public List<Moneda> index() {
-        return monedaService.findAll();
+    public List<MonedaModel> index() {
+        return MonedaConverter.listEntitytoListModel(monedaService.findAll());
     }
 
     @GetMapping("/monedas/page")

@@ -39,43 +39,43 @@ public class Credito implements Serializable {
     @Column(name = "nro_credito")
     private Integer nroCredito;
 
-    @Lob
-    @Size(max = 16777215)
     @Column(name = "monto_desembolsado")
-    private String montoDesembolsado;
+    private Long montoDesembolsado;
 
-    @Lob
-    @Size(max = 16777215)
     @Column(name = "total_capital")
-    private String totalCapital;
-    @Lob
-    @Size(max = 16777215)
+    private Long totalCapital;
+
     @Column(name = "total_interes")
-    private String totalInteres;
-    @Lob
-    @Size(max = 16777215)
+    private Long totalInteres;
+
     @Column(name = "taza_tan")
-    private String tazaTan;
-    @Lob
-    @Size(max = 16777215)
+    private Long tazaTan;
+
     @Column(name = "taza_tae")
-    private String tazaTae;
+    private Long tazaTae;
+
     @Column(name = "fecha_desembolso")
     @Temporal(TemporalType.DATE)
     private Date fechaDesembolso;
+
     @Column(name = "fecha_vencimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaVencimiento;
+
     @Column(name = "plazo_total")
     private Integer plazoTotal;
+
     @Column(name = "cantidad_cuotas")
     private Integer cantidadCuotas;
+
     @Size(max = 255)
     @Column(name = "producto_descripcion")
     private String productoDescripcion;
+
     @Size(max = 255)
     @Column(name = "destino_credito")
     private String destinoCredito;
+
     @Column(name = "estado")
     private Boolean estado;
 
