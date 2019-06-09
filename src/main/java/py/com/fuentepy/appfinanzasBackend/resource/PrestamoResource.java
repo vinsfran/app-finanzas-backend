@@ -11,12 +11,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import py.com.fuentepy.appfinanzasBackend.converter.CreditoConverter;
-import py.com.fuentepy.appfinanzasBackend.entity.Credito;
-import py.com.fuentepy.appfinanzasBackend.model.CreditoModel;
-import py.com.fuentepy.appfinanzasBackend.sevice.CreditoService;
+import py.com.fuentepy.appfinanzasBackend.converter.PrestamoConverter;
+import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
+import py.com.fuentepy.appfinanzasBackend.model.PrestamoModel;
+import py.com.fuentepy.appfinanzasBackend.sevice.PrestamoService;
 import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
-import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -25,77 +24,71 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+//@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
-public class CreditoResource {
+@RequestMapping("/api/prestamos")
+public class PrestamoResource {
 
-    private static final Log LOG = LogFactory.getLog(CreditoResource.class);
+    private static final Log LOG = LogFactory.getLog(PrestamoResource.class);
 
     @Autowired
-    private CreditoService creditoService;
+    private PrestamoService prestamoService;
 
     @Autowired
     private UsuarioService usuarioService;
 
-    @GetMapping("/creditos")
-    public List<Credito> index() {
-        return creditoService.findAll();
+    @GetMapping()
+    public List<PrestamoModel> index() {
+        return prestamoService.findAll();
     }
 
-    @GetMapping("/creditos/page")
+    @GetMapping("/page")
     public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
-        Page<Credito> creditos = null;
+        Page<PrestamoModel> prestamos = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            creditos = creditoService.findAll(pageable);
+            prestamos = prestamoService.findAll(pageable);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (creditos == null) {
-            response.put("mensaje", "No existen creditos en la base de datos!");
+        if (prestamos == null) {
+            response.put("mensaje", "No existen prestamos en la base de datos!");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        response.put("page", CreditoConverter.pageEntitytoPageModel(pageable, creditos));
+        response.put("page", prestamos);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping("/creditos/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
-        Credito credito = null;
+        PrestamoModel prestamo = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            credito = creditoService.findById(id);
-
+            prestamo = prestamoService.findById(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
-        if (credito == null) {
-            response.put("mensaje", "El Credito ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
+        if (prestamo == null) {
+            response.put("mensaje", "El Prestamo ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(CreditoConverter.entitytoModel(credito), HttpStatus.OK);
+        return new ResponseEntity<>(prestamo, HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PostMapping("/creditos")
-    public ResponseEntity<?> create(@RequestHeader("Authorization") String authorization,
-                                    @Valid @RequestBody CreditoModel creditoModel, BindingResult result) {
+    @PostMapping()
+    public ResponseEntity<?> create(@Valid @RequestBody PrestamoModel prestamoModel, BindingResult result) {
 
+        System.out.println("create: " + prestamoModel.toString());
 
-        Long id = TokenUtil.getIdFromToken(authorization);
-        LOG.info("id: " + id);
-        Credito creditoNew = null;
+        PrestamoModel prestamoNew = null;
         Map<String, Object> response = new HashMap<>();
-
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
 //            for (FieldError err : result.getFieldErrors()) {
@@ -114,22 +107,22 @@ public class CreditoResource {
         }
 
         try {
-            creditoNew = creditoService.save(CreditoConverter.modeltoEntity(creditoModel));
+            prestamoNew = prestamoService.save(prestamoModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El Credito ha sido creada con éxito!");
-        response.put("credito", CreditoConverter.entitytoModel(creditoNew));
+        response.put("mensaje", "El Prestamo ha sido creada con éxito!");
+        response.put("prestamo", prestamoNew);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PutMapping("/creditos/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody CreditoModel creditoModel, BindingResult result, @PathVariable Long id) {
-        Credito creditoActual = creditoService.findById(id);
-        Credito creditoUpdated = null;
+    @PutMapping()
+    public ResponseEntity<?> update(@Valid @RequestBody PrestamoModel prestamoModel, BindingResult result) {
+        Long id = prestamoModel.getId();
+        PrestamoModel prestamoUpdated = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
@@ -147,44 +140,45 @@ public class CreditoResource {
             response.put("errors", errors);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        if (creditoActual == null) {
-            response.put("mensaje", "Error: no se pudo editar, el Credito Nro: ".concat(id.toString()).concat(" no existe en la base de datos!"));
+
+
+        if (prestamoService.findById(id) == null) {
+            response.put("mensaje", "Error: no se pudo editar, el Prestamo Nro: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            creditoActual = CreditoConverter.modeltoEntity(creditoModel);
-            creditoUpdated = creditoService.save(creditoActual);
+            prestamoUpdated = prestamoService.save(prestamoModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El Credito ha sido actualizado con éxito!");
-        response.put("credito", CreditoConverter.entitytoModel(creditoUpdated));
+        response.put("mensaje", "El Prestamo ha sido actualizado con éxito!");
+        response.put("prestamo", prestamoUpdated);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @DeleteMapping("/creditos/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         try {
-            creditoService.delete(id);
+            prestamoService.delete(id);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al eliminar el Credito de la base de datos!");
+            response.put("mensaje", "Error al eliminar el Prestamo de la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El Credito eliminado con éxito!");
+        response.put("mensaje", "El Prestamo eliminado con éxito!");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 //    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-//    @PostMapping("/creditos/upload")
+//    @PostMapping("/prestamos/upload")
 
 //    @GetMapping("/uploads/img/{nombreFoto:.+}")
 
 //    @Secured({"ROLE_ADMIN"})
-//    @GetMapping("/creditos/regiones")
+//    @GetMapping("/prestamos/regiones")
 }

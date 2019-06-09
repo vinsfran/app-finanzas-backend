@@ -7,7 +7,6 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  *
@@ -30,19 +29,13 @@ public class Moneda implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "descripcion")
-    private String descripcion;
+    @Column(name = "nombre")
+    private String nombre;
 
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
     @Column(name = "codigo")
     private String codigo;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monedaId")
-    private List<Credito> creditoList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "monedaId")
-    private List<Ahorro> ahorroList;
     
 }

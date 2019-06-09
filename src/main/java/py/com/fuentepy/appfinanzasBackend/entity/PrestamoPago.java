@@ -13,8 +13,8 @@ import java.util.Date;
  */
 @Data
 @Entity
-@Table(name = "pagos")
-public class Pago implements Serializable {
+@Table(name = "prestamos_pagos")
+public class PrestamoPago implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -22,30 +22,23 @@ public class Pago implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Basic(optional = false)
     @Column(name = "id")
-    private Integer id;
+    private Long id;
+
+    @Column(name = "numero_cuota")
+    private Integer numeroCuota;
 
     @Column(name = "fecha_pago")
     @Temporal(TemporalType.DATE)
     private Date fechaPago;
-    @Lob
-    @Size(max = 16777215)
-    @Column(name = "capital")
-    private String capital;
-    @Lob
-    @Size(max = 16777215)
-    @Column(name = "interes")
-    private String interes;
 
-    @Lob
-    @Size(max = 16777215)
-    @Column(name = "impuestos")
-    private String impuestos;
+    @Column(name = "monto_pagado")
+    private Long montoPagado;
 
-    @JoinColumn(name = "planes_pagos_id", referencedColumnName = "id")
+    @JoinColumn(name = "prestamo_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
-    private PlanPago planPagoId;
+    private Prestamo prestamoId;
 
-    @JoinColumn(name = "tipos_pagos_id", referencedColumnName = "id")
+    @JoinColumn(name = "tipo_pago_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoPago tipoPagoId;
 

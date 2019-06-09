@@ -21,20 +21,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+//@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/monedas")
 public class MonedaResource {
 
     @Autowired
     private MonedaService monedaService;
 
-    @GetMapping("/monedas")
+    @GetMapping()
     public List<MonedaModel> index() {
         return MonedaConverter.listEntitytoListModel(monedaService.findAll());
     }
 
-    @GetMapping("/monedas/page")
+    @GetMapping("/page")
     public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
         Page<Moneda> monedas = null;
         Map<String, Object> response = new HashMap<>();
@@ -55,7 +55,7 @@ public class MonedaResource {
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping("/monedas/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Integer id) {
         Moneda moneda = null;
         Map<String, Object> response = new HashMap<>();
@@ -77,11 +77,10 @@ public class MonedaResource {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PostMapping("/monedas")
-    public ResponseEntity<?> create(@Valid @RequestBody Moneda moneda, BindingResult result) {
-        Moneda monedaNew = null;
+    @PostMapping()
+    public ResponseEntity<?> create(@Valid @RequestBody MonedaModel monedaModel, BindingResult result) {
+        MonedaModel monedaNew = null;
         Map<String, Object> response = new HashMap<>();
-
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
 //            for (FieldError err : result.getFieldErrors()) {
@@ -100,7 +99,7 @@ public class MonedaResource {
         }
 
         try {
-            monedaNew = monedaService.save(moneda);
+            monedaNew = monedaService.save(monedaModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -112,10 +111,10 @@ public class MonedaResource {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PutMapping("/monedas/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody Moneda moneda, BindingResult result, @PathVariable Integer id) {
-        Moneda monedaActual = monedaService.findById(id);
-        Moneda monedaUpdated = null;
+    @PutMapping()
+    public ResponseEntity<?> update(@Valid @RequestBody MonedaModel monedaModel, BindingResult result) {
+        Integer id = monedaModel.getId();
+        MonedaModel monedaUpdated = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
@@ -133,26 +132,24 @@ public class MonedaResource {
             response.put("errors", errors);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        if (monedaActual == null) {
+        if (monedaService.findById(id) == null) {
             response.put("mensaje", "Error: no se pudo editar, el moneda ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            monedaActual.setDescripcion(moneda.getDescripcion());
-            monedaActual.setCodigo(moneda.getCodigo());
-            monedaUpdated = monedaService.save(monedaActual);
+            monedaUpdated = monedaService.save(monedaModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El moneda ha sido actualizado con éxito!");
+        response.put("mensaje", "La moneda ha sido actualizado con éxito!");
         response.put("moneda", monedaUpdated);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @DeleteMapping("/monedas/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         Map<String, Object> response = new HashMap<>();

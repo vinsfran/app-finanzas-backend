@@ -16,7 +16,7 @@ public class MonedaConverter {
     public static Moneda modeltoEntity(MonedaModel model) {
         Moneda entity = new Moneda();
         entity.setId(model.getId());
-        entity.setDescripcion(model.getDescripcion());
+        entity.setNombre(model.getNombre());
         entity.setCodigo(model.getCodigo());
         return entity;
     }
@@ -24,7 +24,7 @@ public class MonedaConverter {
     public static MonedaModel entitytoModel(Moneda entity) {
         MonedaModel model = new MonedaModel();
         model.setId(entity.getId());
-        model.setDescripcion(entity.getDescripcion());
+        model.setNombre(entity.getNombre());
         model.setCodigo(entity.getCodigo());
         return model;
     }

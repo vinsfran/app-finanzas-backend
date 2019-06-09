@@ -48,6 +48,6 @@ public class Usuario implements Serializable {
     private List<Rol> roles;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "usuarioId")
-    private List<Pago> pagoList;
+    private List<PrestamoPago> prestamoPagoList;
 
 }

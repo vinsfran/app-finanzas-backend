@@ -3,6 +3,7 @@ package py.com.fuentepy.appfinanzasBackend.sevice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import py.com.fuentepy.appfinanzasBackend.entity.Moneda;
+import py.com.fuentepy.appfinanzasBackend.model.MonedaModel;
 
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface MonedaService {
 
     Moneda findById(Integer id);
 
-    Moneda save(Moneda moneda);
+    MonedaModel save(MonedaModel monedaModel);
 
     void delete(Integer id);
 }

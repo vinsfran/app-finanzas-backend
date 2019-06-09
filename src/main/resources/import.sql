@@ -24,11 +24,15 @@ INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (2, 2);
 INSERT INTO usuarios_roles (usuarios_id, roles_id) VALUES (2, 1);
 
 
-INSERT INTO monedas (codigo, descripcion) VALUES ('Gs.', 'Guarani');
-INSERT INTO monedas (codigo, descripcion) VALUES ('Us.', 'Dolar');
-INSERT INTO monedas (codigo, descripcion) VALUES ('Ps.', 'Peso Argentino');
+INSERT INTO monedas (codigo, nombre) VALUES ('Gs.', 'Guarani');
+INSERT INTO monedas (codigo, nombre) VALUES ('Us.', 'Dolar');
+INSERT INTO monedas (codigo, nombre) VALUES ('Ps.', 'Peso Argentino');
 
-INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('BANCO ITAU', 2);
-INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('BANCO BBVA', 2);
-INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('BANCO CONTINENTAL', 2);
-INSERT INTO entidades_financieras (nombre, usuarios_id) VALUES ('FINANCIERA EL COMERCIO', 2);
+INSERT INTO entidades_financieras (nombre, usuario_id) VALUES ('BANCO ITAU', 2);
+INSERT INTO entidades_financieras (nombre, usuario_id) VALUES ('BANCO BBVA', 2);
+INSERT INTO entidades_financieras (nombre, usuario_id) VALUES ('BANCO CONTINENTAL', 2);
+INSERT INTO entidades_financieras (nombre, usuario_id) VALUES ('FINANCIERA EL COMERCIO', 2);
+
+INSERT INTO tipos_pagos (nombre) VALUES ('Efectivo');
+INSERT INTO tipos_pagos (nombre) VALUES ('Tarjeta');
+INSERT INTO tipos_pagos (nombre) VALUES ('Cheque');

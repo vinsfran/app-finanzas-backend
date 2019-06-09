@@ -5,7 +5,6 @@ import lombok.Data;
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
-import java.util.List;
 
 /**
  * @author vinsfran
@@ -27,14 +26,8 @@ public class EntidadFinanciera implements Serializable {
     @Column(name = "nombre")
     private String nombre;
 
-    @JoinColumn(name = "usuarios_id", referencedColumnName = "id")
+    @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario usuarioId;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadFinancieraId")
-    private List<Credito> creditoList;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "entidadFinancieraId")
-    private List<Ahorro> ahorroList;
 
 }

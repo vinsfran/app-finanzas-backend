@@ -1,5 +1,7 @@
 package py.com.fuentepy.appfinanzasBackend.resource;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.data.domain.Page;
@@ -9,8 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import py.com.fuentepy.appfinanzasBackend.entity.TipoPago;
-import py.com.fuentepy.appfinanzasBackend.sevice.TipoPagoService;
+import py.com.fuentepy.appfinanzasBackend.model.PrestamoPagoModel;
+import py.com.fuentepy.appfinanzasBackend.sevice.PrestamoPagoService;
+import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -19,67 +22,71 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+//@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
-public class TipoPagoResource {
+@RequestMapping("/api/prestamos-pagos")
+public class PrestamoPagoResource {
+
+    private static final Log LOG = LogFactory.getLog(PrestamoPagoResource.class);
 
     @Autowired
-    private TipoPagoService tipoPagoService;
+    private PrestamoPagoService prestamoPagoService;
 
-    @GetMapping("/tipoPagos")
-    public List<TipoPago> index() {
-        return tipoPagoService.findAll();
+    @Autowired
+    private UsuarioService usuarioService;
+
+    @GetMapping()
+    public List<PrestamoPagoModel> index() {
+        return prestamoPagoService.findAll();
     }
 
-    @GetMapping("/tipoPagos/page")
+    @GetMapping("/page")
     public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
-        Page<TipoPago> tipoPagos = null;
+        Page<PrestamoPagoModel> prestamos = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            tipoPagos = tipoPagoService.findAll(pageable);
+            prestamos = prestamoPagoService.findAll(pageable);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (tipoPagos == null) {
-            response.put("mensaje", "No existen tipoPagos en la base de datos!");
+        if (prestamos == null) {
+            response.put("mensaje", "No existen pagos en la base de datos!");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        response.put("page", tipoPagos);
+        response.put("page", prestamos);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping("/tipoPagos/{id}")
-    public ResponseEntity<?> show(@PathVariable Integer id) {
-        TipoPago tipoPago = null;
+    @GetMapping("/{id}")
+    public ResponseEntity<?> show(@PathVariable Long id) {
+        PrestamoPagoModel prestamo = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            tipoPago = tipoPagoService.findById(id);
-
+            prestamo = prestamoPagoService.findById(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
-
-        if (tipoPago == null) {
-            response.put("mensaje", "El tipoPago ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
+        if (prestamo == null) {
+            response.put("mensaje", "El Pago ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(tipoPago, HttpStatus.OK);
+        return new ResponseEntity<>(prestamo, HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PostMapping("/tipoPagos")
-    public ResponseEntity<?> create(@Valid @RequestBody TipoPago tipoPago, BindingResult result) {
-        TipoPago tipoPagoNew = null;
-        Map<String, Object> response = new HashMap<>();
+    @PostMapping()
+    public ResponseEntity<?> create(@Valid @RequestBody PrestamoPagoModel prestamoPagoModel, BindingResult result) {
 
+        System.out.println("create: " + prestamoPagoModel.toString());
+
+        PrestamoPagoModel prestamoPagoNew = null;
+        Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
 //            for (FieldError err : result.getFieldErrors()) {
@@ -98,22 +105,22 @@ public class TipoPagoResource {
         }
 
         try {
-            tipoPagoNew = tipoPagoService.save(tipoPago);
+            prestamoPagoNew = prestamoPagoService.save(prestamoPagoModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El tipoPago ha sido creado con éxito!");
-        response.put("tipoPago", tipoPagoNew);
+        response.put("mensaje", "El Pago ha sido creado con éxito!");
+        response.put("prestamoPago", prestamoPagoNew);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PutMapping("/tipoPagos/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody TipoPago tipoPago, BindingResult result, @PathVariable Integer id) {
-        TipoPago tipoPagoActual = tipoPagoService.findById(id);
-        TipoPago tipoPagoUpdated = null;
+    @PutMapping()
+    public ResponseEntity<?> update(@Valid @RequestBody PrestamoPagoModel prestamoPagoModel, BindingResult result) {
+        Long id = prestamoPagoModel.getId();
+        PrestamoPagoModel prestamoPagoUpdated = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
@@ -131,44 +138,45 @@ public class TipoPagoResource {
             response.put("errors", errors);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        if (tipoPagoActual == null) {
-            response.put("mensaje", "Error: no se pudo editar, el tipoPago ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
+
+
+        if (prestamoPagoService.findById(id) == null) {
+            response.put("mensaje", "Error: no se pudo editar, el Prestamo Nro: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            tipoPagoActual.setNombre(tipoPago.getNombre());
-            tipoPagoUpdated = tipoPagoService.save(tipoPagoActual);
+            prestamoPagoUpdated = prestamoPagoService.save(prestamoPagoModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El tipoPago ha sido actualizado con éxito!");
-        response.put("tipoPago", tipoPagoUpdated);
+        response.put("mensaje", "El Prestamo ha sido actualizado con éxito!");
+        response.put("prestamoPago", prestamoPagoUpdated);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
-    @DeleteMapping("/tipoPagos/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public ResponseEntity<?> delete(@PathVariable Integer id) {
+    public ResponseEntity<?> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         try {
-            tipoPagoService.delete(id);
+            prestamoPagoService.delete(id);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al eliminar el tipoPago de la base de datos!");
+            response.put("mensaje", "Error al eliminar el Pago de la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El tipoPago eliminado con éxito!");
+        response.put("mensaje", "El Pago eliminado con éxito!");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 //    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-//    @PostMapping("/tipoPagos/upload")
+//    @PostMapping("/prestamos/upload")
 
 //    @GetMapping("/uploads/img/{nombreFoto:.+}")
 
 //    @Secured({"ROLE_ADMIN"})
-//    @GetMapping("/tipoPagos/regiones")
+//    @GetMapping("/prestamos/regiones")
 }

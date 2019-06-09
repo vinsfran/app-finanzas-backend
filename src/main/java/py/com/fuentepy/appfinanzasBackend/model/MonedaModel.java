@@ -16,9 +16,9 @@ public class MonedaModel implements Serializable {
     @SerializedName("id")
     private Integer id;
 
-    @JsonProperty("descripcion")
-    @SerializedName("descripcion")
-    private String descripcion;
+    @JsonProperty("nombre")
+    @SerializedName("nombre")
+    private String nombre;
 
     @JsonProperty("codigo")
     @SerializedName("codigo")

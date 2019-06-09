@@ -29,10 +29,7 @@ public class TipoPago implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
-    @Column(name = "descripcion")
-    private String descripcion;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "tipoPagoId")
-    private List<Pago> pagoList;
+    @Column(name = "nombre")
+    private String nombre;
 
 }
