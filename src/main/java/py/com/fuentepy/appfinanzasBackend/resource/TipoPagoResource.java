@@ -9,7 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import py.com.fuentepy.appfinanzasBackend.entity.TipoPago;
+import py.com.fuentepy.appfinanzasBackend.model.TipoPagoModel;
 import py.com.fuentepy.appfinanzasBackend.sevice.TipoPagoService;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -19,22 +19,22 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-@CrossOrigin(origins = {"http://localhost:4200"})
+//@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/tipos-pagos")
 public class TipoPagoResource {
 
     @Autowired
     private TipoPagoService tipoPagoService;
 
-    @GetMapping("/tipoPagos")
-    public List<TipoPago> index() {
+    @GetMapping()
+    public List<TipoPagoModel> index() {
         return tipoPagoService.findAll();
     }
 
-    @GetMapping("/tipoPagos/page")
+    @GetMapping("/page")
     public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
-        Page<TipoPago> tipoPagos = null;
+        Page<TipoPagoModel> tipoPagos = null;
         Map<String, Object> response = new HashMap<>();
         try {
             tipoPagos = tipoPagoService.findAll(pageable);
@@ -53,9 +53,9 @@ public class TipoPagoResource {
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
-    @GetMapping("/tipoPagos/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Integer id) {
-        TipoPago tipoPago = null;
+        TipoPagoModel tipoPago = null;
         Map<String, Object> response = new HashMap<>();
         try {
             tipoPago = tipoPagoService.findById(id);
@@ -75,9 +75,9 @@ public class TipoPagoResource {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PostMapping("/tipoPagos")
-    public ResponseEntity<?> create(@Valid @RequestBody TipoPago tipoPago, BindingResult result) {
-        TipoPago tipoPagoNew = null;
+    @PostMapping()
+    public ResponseEntity<?> create(@Valid @RequestBody TipoPagoModel tipoPagoModel, BindingResult result) {
+        TipoPagoModel tipoPagoNew = null;
         Map<String, Object> response = new HashMap<>();
 
         if (result.hasErrors()) {
@@ -98,7 +98,7 @@ public class TipoPagoResource {
         }
 
         try {
-            tipoPagoNew = tipoPagoService.save(tipoPago);
+            tipoPagoNew = tipoPagoService.save(tipoPagoModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -110,10 +110,10 @@ public class TipoPagoResource {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @PutMapping("/tipoPagos/{id}")
-    public ResponseEntity<?> update(@Valid @RequestBody TipoPago tipoPago, BindingResult result, @PathVariable Integer id) {
-        TipoPago tipoPagoActual = tipoPagoService.findById(id);
-        TipoPago tipoPagoUpdated = null;
+    @PutMapping()
+    public ResponseEntity<?> update(@Valid @RequestBody TipoPagoModel tipoPagoModel, BindingResult result) {
+        Integer id = tipoPagoModel.getId();
+        TipoPagoModel tipoPagoUpdated = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
@@ -131,15 +131,14 @@ public class TipoPagoResource {
             response.put("errors", errors);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-        if (tipoPagoActual == null) {
+        if (tipoPagoService.findById(id) == null) {
             response.put("mensaje", "Error: no se pudo editar, el tipoPago ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            tipoPagoActual.setNombre(tipoPago.getNombre());
-            tipoPagoUpdated = tipoPagoService.save(tipoPagoActual);
+            tipoPagoUpdated = tipoPagoService.save(tipoPagoModel);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al realizar el insert en la base de datos!");
+            response.put("mensaje", "Error al realizar el update en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
@@ -149,18 +148,18 @@ public class TipoPagoResource {
     }
 
     @Secured({"ROLE_ADMIN"})
-    @DeleteMapping("/tipoPagos/{id}")
+    @DeleteMapping("/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public ResponseEntity<?> delete(@PathVariable Integer id) {
         Map<String, Object> response = new HashMap<>();
         try {
             tipoPagoService.delete(id);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al eliminar el tipoPago de la base de datos!");
+            response.put("mensaje", "Error al eliminar el Tipo Pago de la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El tipoPago eliminado con éxito!");
+        response.put("mensaje", "El Tipo Pago eliminado con éxito!");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 

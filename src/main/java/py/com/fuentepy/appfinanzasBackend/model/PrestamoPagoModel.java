@@ -33,9 +33,17 @@ public class PrestamoPagoModel implements Serializable {
     @SerializedName("prestamoId")
     private Long prestamoId;
 
+    @JsonProperty("destinoPrestamo")
+    @SerializedName("destinoPrestamo")
+    private String destinoPrestamo;
+
     @JsonProperty("tipoPagoId")
     @SerializedName("tipoPagoId")
     private Integer tipoPagoId;
+
+    @JsonProperty("tipoPagoNombre")
+    @SerializedName("tipoPagoNombre")
+    private String tipoPagoNombre;
 
     @JsonProperty("usuarioId")
     @SerializedName("usuarioId")

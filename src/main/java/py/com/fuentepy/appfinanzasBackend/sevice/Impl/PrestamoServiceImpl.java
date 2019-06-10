@@ -44,21 +44,21 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Override
     @Transactional(readOnly = true)
     public PrestamoModel findById(Long id) {
-        PrestamoModel prestamoModel = null;
-        Optional<Prestamo> prestamoOptional = prestamoRepository.findById(id);
-        if (prestamoOptional.isPresent()) {
-            prestamoModel = PrestamoConverter.entitytoModel(prestamoOptional.get());
+        PrestamoModel model = null;
+        Optional<Prestamo> optional = prestamoRepository.findById(id);
+        if (optional.isPresent()) {
+            model = PrestamoConverter.entitytoModel(optional.get());
         }
-        return prestamoModel;
+        return model;
     }
 
     @Override
     @Transactional
     public PrestamoModel save(PrestamoModel prestamoModel) {
 //        Usuario usuario = usuarioRepository.findById2(prestamoModel.getUsuarioId());
-        Prestamo prestamo = PrestamoConverter.modeltoEntity(prestamoModel);
+        Prestamo entity = PrestamoConverter.modeltoEntity(prestamoModel);
 //        prestamo.setUsuarioId(usuario);
-        return PrestamoConverter.entitytoModel(prestamoRepository.save(prestamo));
+        return PrestamoConverter.entitytoModel(prestamoRepository.save(entity));
     }
 
     @Override

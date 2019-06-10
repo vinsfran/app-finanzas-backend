@@ -3,18 +3,19 @@ package py.com.fuentepy.appfinanzasBackend.sevice;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import py.com.fuentepy.appfinanzasBackend.entity.TipoPago;
+import py.com.fuentepy.appfinanzasBackend.model.TipoPagoModel;
 
 import java.util.List;
 
 public interface TipoPagoService {
 
-    List<TipoPago> findAll();
+    List<TipoPagoModel> findAll();
 
-    Page<TipoPago> findAll(Pageable pageable);
+    Page<TipoPagoModel> findAll(Pageable pageable);
 
-    TipoPago findById(Integer id);
+    TipoPagoModel findById(Integer id);
 
-    TipoPago save(TipoPago tipoCobro);
+    TipoPagoModel save(TipoPagoModel model);
 
     void delete(Integer id);
 }

@@ -5,11 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import py.com.fuentepy.appfinanzasBackend.converter.TipoPagoConverter;
 import py.com.fuentepy.appfinanzasBackend.entity.TipoPago;
+import py.com.fuentepy.appfinanzasBackend.model.TipoPagoModel;
 import py.com.fuentepy.appfinanzasBackend.repository.TipoPagoRepository;
 import py.com.fuentepy.appfinanzasBackend.sevice.TipoPagoService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TipoPagoServiceImpl implements TipoPagoService {
@@ -19,26 +22,34 @@ public class TipoPagoServiceImpl implements TipoPagoService {
 
     @Override
     @Transactional(readOnly = true)
-    public List<TipoPago> findAll() {
-        return (List<TipoPago>) tipoPagoRepository.findAll();
+    public List<TipoPagoModel> findAll() {
+        return TipoPagoConverter.listEntitytoListModel(tipoPagoRepository.findAll());
     }
 
     @Override
     @Transactional(readOnly = true)
-    public Page<TipoPago> findAll(Pageable pageable) {
-        return tipoPagoRepository.findAll(pageable);
+    public Page<TipoPagoModel> findAll(Pageable pageable) {
+        return TipoPagoConverter.pageEntitytoPageModel(pageable, tipoPagoRepository.findAll(pageable));
     }
 
     @Override
     @Transactional(readOnly = true)
-    public TipoPago findById(Integer id) {
-        return tipoPagoRepository.findById(id).orElse(null);
+    public TipoPagoModel findById(Integer id) {
+        TipoPagoModel model = null;
+        Optional<TipoPago> optional = tipoPagoRepository.findById(id);
+        if (optional.isPresent()) {
+            model = TipoPagoConverter.entitytoModel(optional.get());
+        }
+        return model;
     }
 
     @Override
     @Transactional
-    public TipoPago save(TipoPago tipoPago) {
-        return tipoPagoRepository.save(tipoPago);
+    public TipoPagoModel save(TipoPagoModel model) {
+        //        Usuario usuario = usuarioRepository.findById2(prestamoModel.getUsuarioId());
+        TipoPago entity = TipoPagoConverter.modeltoEntity(model);
+//        prestamo.setUsuarioId(usuario);
+        return TipoPagoConverter.entitytoModel(tipoPagoRepository.save(entity));
     }
 
     @Override

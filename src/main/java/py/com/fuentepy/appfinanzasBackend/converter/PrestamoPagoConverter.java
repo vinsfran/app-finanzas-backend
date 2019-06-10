@@ -48,7 +48,9 @@ public class PrestamoPagoConverter {
         model.setFechaPago(entity.getFechaPago());
         model.setMontoPagado(entity.getMontoPagado());
         model.setPrestamoId(entity.getPrestamoId().getId());
+        model.setDestinoPrestamo(entity.getPrestamoId().getDestinoPrestamo());
         model.setTipoPagoId(entity.getTipoPagoId().getId());
+        model.setTipoPagoNombre(entity.getTipoPagoId().getNombre());
         model.setUsuarioId(entity.getUsuarioId().getId());
         return model;
     }
