@@ -48,6 +48,15 @@ public class PrestamoPagoServiceImpl implements PrestamoPagoService {
 
     @Override
     @Transactional(readOnly = true)
+    public Page<PrestamoPagoModel> findByPrestamoId(Long prestamoId, Pageable pageable) {
+        LOG.info("prestamoId: " + prestamoId);
+        Prestamo prestamo = new Prestamo();
+        prestamo.setId(prestamoId);
+        return PrestamoPagoConverter.pageEntitytoPageModel(pageable, prestamoPagoRepository.findByPrestamoId(prestamo, pageable));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public PrestamoPagoModel findById(Long id) {
         PrestamoPagoModel prestamoPagoModel = null;
         Optional<PrestamoPago> optional = prestamoPagoRepository.findById(id);

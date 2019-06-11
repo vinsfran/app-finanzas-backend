@@ -37,8 +37,24 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Override
     @Transactional(readOnly = true)
+    public List<PrestamoModel> findByUsuarioId(Long usuarioId) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        return PrestamoConverter.listEntitytoListModel(prestamoRepository.findByUsuarioId(usuario));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
     public Page<PrestamoModel> findAll(Pageable pageable) {
         return PrestamoConverter.pageEntitytoPageModel(pageable, prestamoRepository.findAll(pageable));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<PrestamoModel> findByUsuarioId(Long usuarioId, Pageable pageable) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        return PrestamoConverter.pageEntitytoPageModel(pageable, prestamoRepository.findByUsuarioId(usuario, pageable));
     }
 
     @Override

@@ -16,6 +16,7 @@ import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
 import py.com.fuentepy.appfinanzasBackend.model.PrestamoModel;
 import py.com.fuentepy.appfinanzasBackend.sevice.PrestamoService;
 import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
+import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -38,16 +39,19 @@ public class PrestamoResource {
     private UsuarioService usuarioService;
 
     @GetMapping()
-    public List<PrestamoModel> index() {
-        return prestamoService.findAll();
+    public List<PrestamoModel> getAll(@RequestHeader("Authorization") String authorization) {
+        Long usuarioId = TokenUtil.getIdFromToken(authorization);
+        return prestamoService.findByUsuarioId(usuarioId);
     }
 
     @GetMapping("/page")
-    public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
+    public ResponseEntity<?> getPageByUsuarioId(@RequestHeader("Authorization") String authorization,
+                                   @ApiIgnore Pageable pageable) {
+        Long usuarioId = TokenUtil.getIdFromToken(authorization);
         Page<PrestamoModel> prestamos = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            prestamos = prestamoService.findAll(pageable);
+            prestamos = prestamoService.findByUsuarioId(usuarioId, pageable);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

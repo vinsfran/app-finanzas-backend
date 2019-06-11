@@ -60,6 +60,27 @@ public class PrestamoPagoResource {
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
+    @GetMapping("/page/by-prestamo-id")
+    public ResponseEntity<?> getByPrestamoId(@ApiIgnore Pageable pageable, @RequestParam(value = "prestamoId") Long prestamoId) {
+        Page<PrestamoPagoModel> prestamos = null;
+        Map<String, Object> response = new HashMap<>();
+        try {
+            prestamos = prestamoPagoService.findByPrestamoId(prestamoId, pageable);
+            LOG.info("prestamoId2: " + prestamoId);
+        } catch (DataAccessException e) {
+            response.put("mensaje", "Error al realizar la consulta en la base de datos!");
+            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
+            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+
+        if (prestamos == null) {
+            response.put("mensaje", "No existen pagos en la base de datos!");
+            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
+        }
+        response.put("page", prestamos);
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {

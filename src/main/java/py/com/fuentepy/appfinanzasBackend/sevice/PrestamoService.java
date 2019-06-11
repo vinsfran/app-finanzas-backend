@@ -11,7 +11,11 @@ public interface PrestamoService {
 
     List<PrestamoModel> findAll();
 
+    List<PrestamoModel> findByUsuarioId(Long usuarioId);
+
     Page<PrestamoModel> findAll(Pageable pageable);
+
+    Page<PrestamoModel> findByUsuarioId(Long usuarioId, Pageable pageable);
 
     PrestamoModel findById(Long id);
 

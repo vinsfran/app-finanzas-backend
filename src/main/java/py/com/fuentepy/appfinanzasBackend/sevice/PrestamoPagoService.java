@@ -12,6 +12,8 @@ public interface PrestamoPagoService {
 
     Page<PrestamoPagoModel> findAll(Pageable pageable);
 
+    Page<PrestamoPagoModel> findByPrestamoId(Long prestamoId, Pageable pageable);
+
     PrestamoPagoModel findById(Long id);
 
     PrestamoPagoModel save(PrestamoPagoModel prestamoPagoModel);
