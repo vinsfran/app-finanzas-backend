@@ -8,10 +8,12 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.converter.PrestamoPagoConverter;
+import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
 import py.com.fuentepy.appfinanzasBackend.entity.PrestamoPago;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 import py.com.fuentepy.appfinanzasBackend.model.PrestamoPagoModel;
 import py.com.fuentepy.appfinanzasBackend.repository.PrestamoPagoRepository;
+import py.com.fuentepy.appfinanzasBackend.repository.PrestamoRepository;
 import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
 import py.com.fuentepy.appfinanzasBackend.sevice.PrestamoPagoService;
 
@@ -29,6 +31,9 @@ public class PrestamoPagoServiceImpl implements PrestamoPagoService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private PrestamoRepository prestamoRepository;
+
     @Override
     @Transactional(readOnly = true)
     public List<PrestamoPagoModel> findAll() {
@@ -45,9 +50,9 @@ public class PrestamoPagoServiceImpl implements PrestamoPagoService {
     @Transactional(readOnly = true)
     public PrestamoPagoModel findById(Long id) {
         PrestamoPagoModel prestamoPagoModel = null;
-        Optional<PrestamoPago> prestamoPagoOptional = prestamoPagoRepository.findById(id);
-        if (prestamoPagoOptional.isPresent()) {
-            prestamoPagoModel = PrestamoPagoConverter.entitytoModel(prestamoPagoOptional.get());
+        Optional<PrestamoPago> optional = prestamoPagoRepository.findById(id);
+        if (optional.isPresent()) {
+            prestamoPagoModel = PrestamoPagoConverter.entitytoModel(optional.get());
         }
         return prestamoPagoModel;
     }
@@ -55,9 +60,19 @@ public class PrestamoPagoServiceImpl implements PrestamoPagoService {
     @Override
     @Transactional
     public PrestamoPagoModel save(PrestamoPagoModel prestamoPagoModel) {
+//        PrestamoPagoModel newPrestamoPagoModel;
         Usuario usuario = usuarioRepository.findById2(prestamoPagoModel.getUsuarioId());
+        Optional<Prestamo> optional = prestamoRepository.findById(prestamoPagoModel.getPrestamoId());
+        Prestamo prestamo = null;
+        if (optional.isPresent()) {
+            prestamo = optional.get();
+            prestamo.setMontoPagado(prestamo.getMontoPagado() + prestamoPagoModel.getMontoPagado());
+            prestamo.setCantidadCuotasPagadas(prestamo.getCantidadCuotasPagadas() + 1);
+        }
         PrestamoPago prestamoPago = PrestamoPagoConverter.modeltoEntity(prestamoPagoModel);
         prestamoPago.setUsuarioId(usuario);
+        prestamoPago.setPrestamoId(prestamo);
+        prestamoPago.setNumeroCuota(prestamo.getCantidadCuotasPagadas());
         return PrestamoPagoConverter.entitytoModel(prestamoPagoRepository.save(prestamoPago));
     }
 

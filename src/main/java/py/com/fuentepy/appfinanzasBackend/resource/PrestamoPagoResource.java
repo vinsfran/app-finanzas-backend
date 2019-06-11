@@ -82,9 +82,6 @@ public class PrestamoPagoResource {
     @Secured({"ROLE_ADMIN"})
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody PrestamoPagoModel prestamoPagoModel, BindingResult result) {
-
-        System.out.println("create: " + prestamoPagoModel.toString());
-
         PrestamoPagoModel prestamoPagoNew = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
