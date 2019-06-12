@@ -136,7 +136,6 @@ public class TipoCobroResource {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            tipoCobroActual.setDescripcion(tipoCobro.getDescripcion());
             tipoCobroUpdated = tipoCobroService.save(tipoCobroActual);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");

@@ -136,7 +136,6 @@ public class TipoAhorroResource {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            tipoAhorroActual.setDescripcion(tipoAhorro.getDescripcion());
             tipoAhorroActual.setNombre(tipoAhorro.getNombre());
             tipoAhorroUpdated = tipoAhorroService.save(tipoAhorroActual);
         } catch (DataAccessException e) {
