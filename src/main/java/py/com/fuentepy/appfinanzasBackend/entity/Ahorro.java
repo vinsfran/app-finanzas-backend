@@ -30,21 +30,24 @@ public class Ahorro implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date fechaInicio;
 
-    @Column(name = "fecha_vto")
+    @Column(name = "fecha_vencimiento")
     @Temporal(TemporalType.DATE)
-    private Date fechaVto;
+    private Date fechaVencimiento;
 
     @Column(name = "plazo_total")
     private Integer plazoTotal;
 
     @Column(name = "interes")
-    private String interes;
+    private Long interes;
 
     @Column(name = "tasa")
-    private String tasa;
+    private Long tasa;
 
-    @Column(name = "total_cuotas")
-    private Integer totalCuotas;
+    @Column(name = "cantidad_cuotas")
+    private Integer cantidadCuotas;
+
+    @Column(name = "monto_cuota")
+    private Long montoCuota;
 
     @Column(name = "monto_interes_cuota")
     private Long montoInteresCuota;
