@@ -54,3 +54,7 @@ INSERT INTO tipos_cobros (nombre) VALUES ('Anual');
 INSERT INTO ahorros (cantidad_cobro, cantidad_cuotas, fecha_inicio, fecha_vencimiento, interes, monto_capital, monto_cuota, monto_interes_cuota, plazo_total, tasa, entidades_financieras_id, monedas_id, tipos_ahorros_id, tipos_cobros_id, usuario_id) VALUES (0,12,'2019-06-12','2019-06-13',2,500000,50000,0,12,1,1,1,1,1,2);
 INSERT INTO ahorros (cantidad_cobro, cantidad_cuotas, fecha_inicio, fecha_vencimiento, interes, monto_capital, monto_cuota, monto_interes_cuota, plazo_total, tasa, entidades_financieras_id, monedas_id, tipos_ahorros_id, tipos_cobros_id, usuario_id) VALUES (0,12,'2019-06-12','2019-06-13',2,100000000,100000,0,12,1,3,1,1,1,1);
 
+INSERT INTO conceptos (nombre, signo, usuario_id) VALUES ('Luz', '-', 2);
+INSERT INTO conceptos (nombre, signo, usuario_id) VALUES ('Agua', '-', 2);
+INSERT INTO conceptos (nombre, signo, usuario_id) VALUES ('Escuela', '-', 2);
+INSERT INTO conceptos (nombre, signo, usuario_id) VALUES ('Sueldo', '+', 2);
