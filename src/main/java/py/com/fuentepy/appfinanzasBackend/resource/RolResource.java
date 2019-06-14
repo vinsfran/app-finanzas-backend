@@ -10,7 +10,7 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import py.com.fuentepy.appfinanzasBackend.entity.Rol;
-import py.com.fuentepy.appfinanzasBackend.sevice.RolService;
+import py.com.fuentepy.appfinanzasBackend.service.RolService;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;

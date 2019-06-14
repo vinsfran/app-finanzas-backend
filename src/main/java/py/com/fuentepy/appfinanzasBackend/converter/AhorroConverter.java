@@ -19,7 +19,7 @@ public class AhorroConverter {
 
     private static final Log LOG = LogFactory.getLog(AhorroConverter.class);
 
-    public static Ahorro modeltoEntity(AhorroModel model) {
+    public static Ahorro modelToEntity(AhorroModel model) {
         TipoAhorro tipoAhorro = new TipoAhorro();
         tipoAhorro.setId(model.getTipoAhorroId());
         tipoAhorro.setNombre(model.getTipoAhorroNombre());
@@ -55,7 +55,7 @@ public class AhorroConverter {
         return entity;
     }
 
-    public static AhorroModel entitytoModel(Ahorro entity) {
+    public static AhorroModel entityToModel(Ahorro entity) {
         AhorroModel model = new AhorroModel();
         model.setId(entity.getId());
         model.setMontoCapital(entity.getMontoCapital());
@@ -85,14 +85,14 @@ public class AhorroConverter {
     public static List<AhorroModel> listEntitytoListModel(List<Ahorro> listEntity) {
         List<AhorroModel> listModel = new ArrayList<>();
         for (Ahorro entity : listEntity) {
-            listModel.add(entitytoModel(entity));
+            listModel.add(entityToModel(entity));
         }
         return listModel;
     }
 
     static List<AhorroModel> mapEntitiesIntoDTOs(Iterable<Ahorro> entities) {
         List<AhorroModel> dtos = new ArrayList<>();
-        entities.forEach(e -> dtos.add(entitytoModel(e)));
+        entities.forEach(e -> dtos.add(entityToModel(e)));
         return dtos;
     }
 

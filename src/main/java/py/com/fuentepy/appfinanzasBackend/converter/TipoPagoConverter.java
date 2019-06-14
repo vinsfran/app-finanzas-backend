@@ -13,14 +13,14 @@ import java.util.List;
 @Component("tipoPagoConverter")
 public class TipoPagoConverter {
 
-    public static TipoPago modeltoEntity(TipoPagoModel model) {
+    public static TipoPago modelToEntity(TipoPagoModel model) {
         TipoPago entity = new TipoPago();
         entity.setId(model.getId());
         entity.setNombre(model.getNombre());
         return entity;
     }
 
-    public static TipoPagoModel entitytoModel(TipoPago entity) {
+    public static TipoPagoModel entityToModel(TipoPago entity) {
         TipoPagoModel model = new TipoPagoModel();
         model.setId(entity.getId());
         model.setNombre(entity.getNombre());
@@ -30,14 +30,14 @@ public class TipoPagoConverter {
     public static List<TipoPagoModel> listEntitytoListModel(List<TipoPago> listEntity) {
         List<TipoPagoModel> listModel = new ArrayList<>();
         for (TipoPago entity : listEntity) {
-            listModel.add(entitytoModel(entity));
+            listModel.add(entityToModel(entity));
         }
         return listModel;
     }
 
     static List<TipoPagoModel> mapEntitiesIntoDTOs(Iterable<TipoPago> entities) {
         List<TipoPagoModel> dtos = new ArrayList<>();
-        entities.forEach(e -> dtos.add(entitytoModel(e)));
+        entities.forEach(e -> dtos.add(entityToModel(e)));
         return dtos;
     }
 

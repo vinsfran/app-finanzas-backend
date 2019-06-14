@@ -12,8 +12,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import py.com.fuentepy.appfinanzasBackend.model.ConceptoModel;
-import py.com.fuentepy.appfinanzasBackend.sevice.ConceptoService;
-import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
+import py.com.fuentepy.appfinanzasBackend.service.ConceptoService;
+import py.com.fuentepy.appfinanzasBackend.service.UsuarioService;
 import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 import springfox.documentation.annotations.ApiIgnore;
 
@@ -44,7 +44,7 @@ public class ConceptoResource {
 
     @GetMapping("/page")
     public ResponseEntity<?> getPageByUsuarioId(@RequestHeader("Authorization") String authorization,
-                                   @ApiIgnore Pageable pageable) {
+                                                @ApiIgnore Pageable pageable) {
         Long usuarioId = TokenUtil.getIdFromToken(authorization);
         Page<ConceptoModel> conceptos = null;
         Map<String, Object> response = new HashMap<>();
@@ -55,7 +55,6 @@ public class ConceptoResource {
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-
         if (conceptos == null) {
             response.put("mensaje", "No existen conceptos en la base de datos!");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
@@ -86,9 +85,6 @@ public class ConceptoResource {
     @Secured({"ROLE_ADMIN"})
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody ConceptoModel conceptoModel, BindingResult result) {
-
-        System.out.println("create: " + conceptoModel.toString());
-
         ConceptoModel conceptoNew = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
@@ -142,8 +138,6 @@ public class ConceptoResource {
             response.put("errors", errors);
             return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST);
         }
-
-
         if (conceptoService.findById(id) == null) {
             response.put("mensaje", "Error: no se pudo editar, el Concepto Nro: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);

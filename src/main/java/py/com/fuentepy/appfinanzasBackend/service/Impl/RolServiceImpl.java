@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.entity.Rol;
 import py.com.fuentepy.appfinanzasBackend.repository.RolRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.RolService;
+import py.com.fuentepy.appfinanzasBackend.service.RolService;
 
 import java.util.List;
 

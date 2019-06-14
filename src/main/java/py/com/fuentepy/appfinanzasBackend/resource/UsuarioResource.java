@@ -12,8 +12,8 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import py.com.fuentepy.appfinanzasBackend.entity.Cliente;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
-import py.com.fuentepy.appfinanzasBackend.sevice.ClienteService;
-import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
+import py.com.fuentepy.appfinanzasBackend.service.ClienteService;
+import py.com.fuentepy.appfinanzasBackend.service.UsuarioService;
 
 import javax.validation.Valid;
 import java.util.HashMap;

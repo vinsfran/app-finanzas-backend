@@ -14,7 +14,7 @@ import java.util.List;
 @Component("conceptoConverter")
 public class ConceptoConverter {
 
-    public static Concepto modeltoEntity(ConceptoModel model) {
+    public static Concepto modelToEntity(ConceptoModel model) {
         Usuario usuario = new Usuario();
         usuario.setId(model.getUsuarioId());
         Concepto entity = new Concepto();
@@ -25,7 +25,7 @@ public class ConceptoConverter {
         return entity;
     }
 
-    public static ConceptoModel entitytoModel(Concepto entity) {
+    public static ConceptoModel entityToModel(Concepto entity) {
         ConceptoModel model = new ConceptoModel();
         model.setId(entity.getId());
         model.setNombre(entity.getNombre());
@@ -37,14 +37,14 @@ public class ConceptoConverter {
     public static List<ConceptoModel> listEntitytoListModel(List<Concepto> listEntity) {
         List<ConceptoModel> listModel = new ArrayList<>();
         for (Concepto entity : listEntity) {
-            listModel.add(entitytoModel(entity));
+            listModel.add(entityToModel(entity));
         }
         return listModel;
     }
 
     static List<ConceptoModel> mapEntitiesIntoDTOs(Iterable<Concepto> entities) {
         List<ConceptoModel> dtos = new ArrayList<>();
-        entities.forEach(e -> dtos.add(entitytoModel(e)));
+        entities.forEach(e -> dtos.add(entityToModel(e)));
         return dtos;
     }
 

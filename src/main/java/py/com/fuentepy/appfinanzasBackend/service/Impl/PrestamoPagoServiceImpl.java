@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -15,7 +15,7 @@ import py.com.fuentepy.appfinanzasBackend.model.PrestamoPagoModel;
 import py.com.fuentepy.appfinanzasBackend.repository.PrestamoPagoRepository;
 import py.com.fuentepy.appfinanzasBackend.repository.PrestamoRepository;
 import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.PrestamoPagoService;
+import py.com.fuentepy.appfinanzasBackend.service.PrestamoPagoService;
 
 import java.util.List;
 import java.util.Optional;
@@ -61,7 +61,7 @@ public class PrestamoPagoServiceImpl implements PrestamoPagoService {
         PrestamoPagoModel prestamoPagoModel = null;
         Optional<PrestamoPago> optional = prestamoPagoRepository.findById(id);
         if (optional.isPresent()) {
-            prestamoPagoModel = PrestamoPagoConverter.entitytoModel(optional.get());
+            prestamoPagoModel = PrestamoPagoConverter.entityToModel(optional.get());
         }
         return prestamoPagoModel;
     }
@@ -78,11 +78,11 @@ public class PrestamoPagoServiceImpl implements PrestamoPagoService {
             prestamo.setMontoPagado(prestamo.getMontoPagado() + prestamoPagoModel.getMontoPagado());
             prestamo.setCantidadCuotasPagadas(prestamo.getCantidadCuotasPagadas() + 1);
         }
-        PrestamoPago prestamoPago = PrestamoPagoConverter.modeltoEntity(prestamoPagoModel);
+        PrestamoPago prestamoPago = PrestamoPagoConverter.modelToEntity(prestamoPagoModel);
         prestamoPago.setUsuarioId(usuario);
         prestamoPago.setPrestamoId(prestamo);
         prestamoPago.setNumeroCuota(prestamo.getCantidadCuotasPagadas());
-        return PrestamoPagoConverter.entitytoModel(prestamoPagoRepository.save(prestamoPago));
+        return PrestamoPagoConverter.entityToModel(prestamoPagoRepository.save(prestamoPago));
     }
 
     @Override

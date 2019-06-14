@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,7 @@ import py.com.fuentepy.appfinanzasBackend.converter.TipoPagoConverter;
 import py.com.fuentepy.appfinanzasBackend.entity.TipoPago;
 import py.com.fuentepy.appfinanzasBackend.model.TipoPagoModel;
 import py.com.fuentepy.appfinanzasBackend.repository.TipoPagoRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.TipoPagoService;
+import py.com.fuentepy.appfinanzasBackend.service.TipoPagoService;
 
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +38,7 @@ public class TipoPagoServiceImpl implements TipoPagoService {
         TipoPagoModel model = null;
         Optional<TipoPago> optional = tipoPagoRepository.findById(id);
         if (optional.isPresent()) {
-            model = TipoPagoConverter.entitytoModel(optional.get());
+            model = TipoPagoConverter.entityToModel(optional.get());
         }
         return model;
     }
@@ -46,10 +46,8 @@ public class TipoPagoServiceImpl implements TipoPagoService {
     @Override
     @Transactional
     public TipoPagoModel save(TipoPagoModel model) {
-        //        Usuario usuario = usuarioRepository.findById2(prestamoModel.getUsuarioId());
-        TipoPago entity = TipoPagoConverter.modeltoEntity(model);
-//        prestamo.setUsuarioId(usuario);
-        return TipoPagoConverter.entitytoModel(tipoPagoRepository.save(entity));
+        TipoPago entity = TipoPagoConverter.modelToEntity(model);
+        return TipoPagoConverter.entityToModel(tipoPagoRepository.save(entity));
     }
 
     @Override

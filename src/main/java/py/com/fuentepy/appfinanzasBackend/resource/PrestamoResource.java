@@ -11,11 +11,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import py.com.fuentepy.appfinanzasBackend.converter.PrestamoConverter;
-import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
 import py.com.fuentepy.appfinanzasBackend.model.PrestamoModel;
-import py.com.fuentepy.appfinanzasBackend.sevice.PrestamoService;
-import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
+import py.com.fuentepy.appfinanzasBackend.service.PrestamoService;
+import py.com.fuentepy.appfinanzasBackend.service.UsuarioService;
 import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 import springfox.documentation.annotations.ApiIgnore;
 

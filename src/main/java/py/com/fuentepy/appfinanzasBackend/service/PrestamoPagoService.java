@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice;
+package py.com.fuentepy.appfinanzasBackend.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

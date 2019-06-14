@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice;
+package py.com.fuentepy.appfinanzasBackend.service;
 
 import py.com.fuentepy.appfinanzasBackend.entity.Cliente;
 import org.springframework.data.domain.Page;

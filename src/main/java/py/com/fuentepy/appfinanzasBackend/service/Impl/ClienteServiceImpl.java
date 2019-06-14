@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import py.com.fuentepy.appfinanzasBackend.repository.ClienteRepository;
 import py.com.fuentepy.appfinanzasBackend.entity.Cliente;
@@ -7,7 +7,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import py.com.fuentepy.appfinanzasBackend.sevice.ClienteService;
+import py.com.fuentepy.appfinanzasBackend.service.ClienteService;
 
 import java.util.List;
 

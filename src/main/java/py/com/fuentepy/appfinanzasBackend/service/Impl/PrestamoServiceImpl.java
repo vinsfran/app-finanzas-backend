@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,8 +12,7 @@ import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 import py.com.fuentepy.appfinanzasBackend.model.PrestamoModel;
 import py.com.fuentepy.appfinanzasBackend.repository.PrestamoRepository;
-import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.PrestamoService;
+import py.com.fuentepy.appfinanzasBackend.service.PrestamoService;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +24,6 @@ public class PrestamoServiceImpl implements PrestamoService {
 
     @Autowired
     private PrestamoRepository prestamoRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -63,7 +59,7 @@ public class PrestamoServiceImpl implements PrestamoService {
         PrestamoModel model = null;
         Optional<Prestamo> optional = prestamoRepository.findById(id);
         if (optional.isPresent()) {
-            model = PrestamoConverter.entitytoModel(optional.get());
+            model = PrestamoConverter.entityToModel(optional.get());
         }
         return model;
     }
@@ -71,10 +67,8 @@ public class PrestamoServiceImpl implements PrestamoService {
     @Override
     @Transactional
     public PrestamoModel save(PrestamoModel prestamoModel) {
-//        Usuario usuario = usuarioRepository.findById2(prestamoModel.getUsuarioId());
-        Prestamo entity = PrestamoConverter.modeltoEntity(prestamoModel);
-//        prestamo.setUsuarioId(usuario);
-        return PrestamoConverter.entitytoModel(prestamoRepository.save(entity));
+        Prestamo entity = PrestamoConverter.modelToEntity(prestamoModel);
+        return PrestamoConverter.entityToModel(prestamoRepository.save(entity));
     }
 
     @Override

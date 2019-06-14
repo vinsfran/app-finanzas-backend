@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
+import py.com.fuentepy.appfinanzasBackend.service.UsuarioService;
 
 import java.util.List;
 import java.util.stream.Collectors;

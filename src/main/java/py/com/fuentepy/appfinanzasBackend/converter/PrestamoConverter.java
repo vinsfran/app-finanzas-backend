@@ -22,7 +22,7 @@ public class PrestamoConverter {
 
     private static final Log LOG = LogFactory.getLog(PrestamoConverter.class);
 
-    public static Prestamo modeltoEntity(PrestamoModel model) {
+    public static Prestamo modelToEntity(PrestamoModel model) {
         Moneda moneda = new Moneda();
         moneda.setId(model.getMonedaId());
         moneda.setNombre(model.getMonedaNombre());
@@ -51,7 +51,7 @@ public class PrestamoConverter {
         return entity;
     }
 
-    public static PrestamoModel entitytoModel(Prestamo entity) {
+    public static PrestamoModel entityToModel(Prestamo entity) {
         PrestamoModel model = new PrestamoModel();
         model.setId(entity.getId());
         model.setMontoPrestamo(entity.getMontoPrestamo());
@@ -77,14 +77,14 @@ public class PrestamoConverter {
     public static List<PrestamoModel> listEntitytoListModel(List<Prestamo> listEntity) {
         List<PrestamoModel> listModel = new ArrayList<>();
         for (Prestamo entity : listEntity) {
-            listModel.add(entitytoModel(entity));
+            listModel.add(entityToModel(entity));
         }
         return listModel;
     }
 
     static List<PrestamoModel> mapEntitiesIntoDTOs(Iterable<Prestamo> entities) {
         List<PrestamoModel> dtos = new ArrayList<>();
-        entities.forEach(e -> dtos.add(entitytoModel(e)));
+        entities.forEach(e -> dtos.add(entityToModel(e)));
         return dtos;
     }
 

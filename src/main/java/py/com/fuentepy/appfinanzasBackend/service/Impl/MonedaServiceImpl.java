@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -9,7 +9,7 @@ import py.com.fuentepy.appfinanzasBackend.converter.MonedaConverter;
 import py.com.fuentepy.appfinanzasBackend.entity.Moneda;
 import py.com.fuentepy.appfinanzasBackend.model.MonedaModel;
 import py.com.fuentepy.appfinanzasBackend.repository.MonedaRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.MonedaService;
+import py.com.fuentepy.appfinanzasBackend.service.MonedaService;
 
 import java.util.List;
 
@@ -40,8 +40,8 @@ public class MonedaServiceImpl implements MonedaService {
     @Override
     @Transactional
     public MonedaModel save(MonedaModel monedaModel) {
-        Moneda moneda = MonedaConverter.modeltoEntity(monedaModel);
-        return MonedaConverter.entitytoModel(monedaRepository.save(moneda));
+        Moneda moneda = MonedaConverter.modelToEntity(monedaModel);
+        return MonedaConverter.entityToModel(monedaRepository.save(moneda));
     }
 
     @Override

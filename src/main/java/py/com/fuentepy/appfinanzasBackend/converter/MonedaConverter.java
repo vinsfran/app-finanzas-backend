@@ -13,7 +13,7 @@ import java.util.List;
 @Component("monedaConverter")
 public class MonedaConverter {
 
-    public static Moneda modeltoEntity(MonedaModel model) {
+    public static Moneda modelToEntity(MonedaModel model) {
         Moneda entity = new Moneda();
         entity.setId(model.getId());
         entity.setNombre(model.getNombre());
@@ -21,7 +21,7 @@ public class MonedaConverter {
         return entity;
     }
 
-    public static MonedaModel entitytoModel(Moneda entity) {
+    public static MonedaModel entityToModel(Moneda entity) {
         MonedaModel model = new MonedaModel();
         model.setId(entity.getId());
         model.setNombre(entity.getNombre());
@@ -32,14 +32,14 @@ public class MonedaConverter {
     public static List<MonedaModel> listEntitytoListModel(List<Moneda> listEntity) {
         List<MonedaModel> listModel = new ArrayList<>();
         for (Moneda entity : listEntity) {
-            listModel.add(entitytoModel(entity));
+            listModel.add(entityToModel(entity));
         }
         return listModel;
     }
 
     static List<MonedaModel> mapEntitiesIntoDTOs(Iterable<Moneda> entities) {
         List<MonedaModel> dtos = new ArrayList<>();
-        entities.forEach(e -> dtos.add(entitytoModel(e)));
+        entities.forEach(e -> dtos.add(entityToModel(e)));
         return dtos;
     }
 

@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.entity.TipoAhorro;
 import py.com.fuentepy.appfinanzasBackend.repository.TipoAhorroRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.TipoAhorroService;
+import py.com.fuentepy.appfinanzasBackend.service.TipoAhorroService;
 
 import java.util.List;
 

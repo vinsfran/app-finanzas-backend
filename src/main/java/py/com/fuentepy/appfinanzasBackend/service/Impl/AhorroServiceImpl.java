@@ -1,4 +1,4 @@
-package py.com.fuentepy.appfinanzasBackend.sevice.Impl;
+package py.com.fuentepy.appfinanzasBackend.service.Impl;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -12,8 +12,7 @@ import py.com.fuentepy.appfinanzasBackend.entity.Ahorro;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 import py.com.fuentepy.appfinanzasBackend.model.AhorroModel;
 import py.com.fuentepy.appfinanzasBackend.repository.AhorroRepository;
-import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
-import py.com.fuentepy.appfinanzasBackend.sevice.AhorroService;
+import py.com.fuentepy.appfinanzasBackend.service.AhorroService;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +24,6 @@ public class AhorroServiceImpl implements AhorroService {
 
     @Autowired
     private AhorroRepository ahorroRepository;
-
-    @Autowired
-    private UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -63,7 +59,7 @@ public class AhorroServiceImpl implements AhorroService {
         AhorroModel model = null;
         Optional<Ahorro> optional = ahorroRepository.findById(id);
         if (optional.isPresent()) {
-            model = AhorroConverter.entitytoModel(optional.get());
+            model = AhorroConverter.entityToModel(optional.get());
         }
         return model;
     }
@@ -71,10 +67,8 @@ public class AhorroServiceImpl implements AhorroService {
     @Override
     @Transactional
     public AhorroModel save(AhorroModel ahorroModel) {
-//        Usuario usuario = usuarioRepository.findById2(ahorroModel.getUsuarioId());
-        Ahorro entity = AhorroConverter.modeltoEntity(ahorroModel);
-//        ahorro.setUsuarioId(usuario);
-        return AhorroConverter.entitytoModel(ahorroRepository.save(entity));
+        Ahorro entity = AhorroConverter.modelToEntity(ahorroModel);
+        return AhorroConverter.entityToModel(ahorroRepository.save(entity));
     }
 
     @Override

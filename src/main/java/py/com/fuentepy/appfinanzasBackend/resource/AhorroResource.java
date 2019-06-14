@@ -12,8 +12,8 @@ import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import py.com.fuentepy.appfinanzasBackend.model.AhorroModel;
-import py.com.fuentepy.appfinanzasBackend.sevice.AhorroService;
-import py.com.fuentepy.appfinanzasBackend.sevice.UsuarioService;
+import py.com.fuentepy.appfinanzasBackend.service.AhorroService;
+import py.com.fuentepy.appfinanzasBackend.service.UsuarioService;
 import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 import springfox.documentation.annotations.ApiIgnore;
 

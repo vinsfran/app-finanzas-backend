@@ -20,5 +20,9 @@ public class EntidadFinancieraModel implements Serializable {
     @JsonProperty("nombre")
     @SerializedName("nombre")
     private String nombre;
+
+    @JsonProperty("usuarioId")
+    @SerializedName("usuarioId")
+    private Long usuarioId;
     
 }

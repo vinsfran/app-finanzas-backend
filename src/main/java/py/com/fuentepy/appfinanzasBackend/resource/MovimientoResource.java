@@ -11,9 +11,10 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import py.com.fuentepy.appfinanzasBackend.model.PrestamoPagoModel;
-import py.com.fuentepy.appfinanzasBackend.service.PrestamoPagoService;
+import py.com.fuentepy.appfinanzasBackend.model.MovimientoModel;
+import py.com.fuentepy.appfinanzasBackend.service.MovimientoService;
 import py.com.fuentepy.appfinanzasBackend.service.UsuarioService;
+import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.validation.Valid;
@@ -24,86 +25,71 @@ import java.util.stream.Collectors;
 
 //@CrossOrigin(origins = {"http://localhost:4200"})
 @RestController
-@RequestMapping("/api/prestamos-pagos")
-public class PrestamoPagoResource {
+@RequestMapping("/api/movimientos")
+public class MovimientoResource {
 
-    private static final Log LOG = LogFactory.getLog(PrestamoPagoResource.class);
+    private static final Log LOG = LogFactory.getLog(MovimientoResource.class);
 
     @Autowired
-    private PrestamoPagoService prestamoPagoService;
+    private MovimientoService movimientoService;
 
     @Autowired
     private UsuarioService usuarioService;
 
     @GetMapping()
-    public List<PrestamoPagoModel> index() {
-        return prestamoPagoService.findAll();
+    public List<MovimientoModel> getAll(@RequestHeader("Authorization") String authorization) {
+        Long usuarioId = TokenUtil.getIdFromToken(authorization);
+        return movimientoService.findByUsuarioId(usuarioId);
     }
 
     @GetMapping("/page")
-    public ResponseEntity<?> index(@ApiIgnore Pageable pageable) {
-        Page<PrestamoPagoModel> prestamos = null;
+    public ResponseEntity<?> getPageByUsuarioId(@RequestHeader("Authorization") String authorization,
+                                   @ApiIgnore Pageable pageable) {
+        Long usuarioId = TokenUtil.getIdFromToken(authorization);
+        Page<MovimientoModel> movimientos = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            prestamos = prestamoPagoService.findAll(pageable);
+            movimientos = movimientoService.findByUsuarioId(usuarioId, pageable);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la consulta en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
 
-        if (prestamos == null) {
-            response.put("mensaje", "No existen pagos en la base de datos!");
+        if (movimientos == null) {
+            response.put("mensaje", "No existen movimientos en la base de datos!");
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        response.put("page", prestamos);
-        return new ResponseEntity<>(response, HttpStatus.OK);
-    }
-
-    @GetMapping("/page/by-prestamo-id")
-    public ResponseEntity<?> getByPrestamoId(@ApiIgnore Pageable pageable, @RequestParam(value = "prestamoId") Long prestamoId) {
-        Page<PrestamoPagoModel> prestamos = null;
-        Map<String, Object> response = new HashMap<>();
-        try {
-            prestamos = prestamoPagoService.findByPrestamoId(prestamoId, pageable);
-            LOG.info("prestamoId2: " + prestamoId);
-        } catch (DataAccessException e) {
-            response.put("mensaje", "Error al realizar la consulta en la base de datos!");
-            response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
-            return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
-        }
-
-        if (prestamos == null) {
-            response.put("mensaje", "No existen pagos en la base de datos!");
-            return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
-        }
-        response.put("page", prestamos);
+        response.put("page", movimientos);
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Secured({"ROLE_USER", "ROLE_ADMIN"})
     @GetMapping("/{id}")
     public ResponseEntity<?> show(@PathVariable Long id) {
-        PrestamoPagoModel prestamo = null;
+        MovimientoModel movimiento = null;
         Map<String, Object> response = new HashMap<>();
         try {
-            prestamo = prestamoPagoService.findById(id);
+            movimiento = movimientoService.findById(id);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar la en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        if (prestamo == null) {
-            response.put("mensaje", "El Pago ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
+        if (movimiento == null) {
+            response.put("mensaje", "El Movimiento ID: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<>(prestamo, HttpStatus.OK);
+        return new ResponseEntity<>(movimiento, HttpStatus.OK);
     }
 
     @Secured({"ROLE_ADMIN"})
     @PostMapping()
-    public ResponseEntity<?> create(@Valid @RequestBody PrestamoPagoModel prestamoPagoModel, BindingResult result) {
-        PrestamoPagoModel prestamoPagoNew = null;
+    public ResponseEntity<?> create(@Valid @RequestBody MovimientoModel movimientoModel, BindingResult result) {
+
+        System.out.println("create: " + movimientoModel.toString());
+
+        MovimientoModel movimientoNew = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
@@ -123,22 +109,22 @@ public class PrestamoPagoResource {
         }
 
         try {
-            prestamoPagoNew = prestamoPagoService.save(prestamoPagoModel);
+            movimientoNew = movimientoService.save(movimientoModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El Pago ha sido creado con éxito!");
-        response.put("prestamoPago", prestamoPagoNew);
+        response.put("mensaje", "El Movimiento ha sido creada con éxito!");
+        response.put("movimiento", movimientoNew);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     @Secured({"ROLE_ADMIN"})
     @PutMapping()
-    public ResponseEntity<?> update(@Valid @RequestBody PrestamoPagoModel prestamoPagoModel, BindingResult result) {
-        Long id = prestamoPagoModel.getId();
-        PrestamoPagoModel prestamoPagoUpdated = null;
+    public ResponseEntity<?> update(@Valid @RequestBody MovimientoModel movimientoModel, BindingResult result) {
+        Long id = movimientoModel.getId();
+        MovimientoModel movimientoUpdated = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
 //            List<String> errors = new ArrayList<>();
@@ -158,19 +144,19 @@ public class PrestamoPagoResource {
         }
 
 
-        if (prestamoPagoService.findById(id) == null) {
-            response.put("mensaje", "Error: no se pudo editar, el Prestamo Nro: ".concat(id.toString()).concat(" no existe en la base de datos!"));
+        if (movimientoService.findById(id) == null) {
+            response.put("mensaje", "Error: no se pudo editar, el Movimiento Nro: ".concat(id.toString()).concat(" no existe en la base de datos!"));
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            prestamoPagoUpdated = prestamoPagoService.save(prestamoPagoModel);
+            movimientoUpdated = movimientoService.save(movimientoModel);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El Prestamo ha sido actualizado con éxito!");
-        response.put("prestamoPago", prestamoPagoUpdated);
+        response.put("mensaje", "El Movimiento ha sido actualizado con éxito!");
+        response.put("movimiento", movimientoUpdated);
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
@@ -180,21 +166,21 @@ public class PrestamoPagoResource {
     public ResponseEntity<?> delete(@PathVariable Long id) {
         Map<String, Object> response = new HashMap<>();
         try {
-            prestamoPagoService.delete(id);
+            movimientoService.delete(id);
         } catch (DataAccessException e) {
-            response.put("mensaje", "Error al eliminar el Pago de la base de datos!");
+            response.put("mensaje", "Error al eliminar el Movimiento de la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
             return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
         }
-        response.put("mensaje", "El Pago eliminado con éxito!");
+        response.put("mensaje", "El Movimiento eliminado con éxito!");
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
 //    @Secured({"ROLE_USER", "ROLE_ADMIN"})
-//    @PostMapping("/prestamos/upload")
+//    @PostMapping("/movimientos/upload")
 
 //    @GetMapping("/uploads/img/{nombreFoto:.+}")
 
 //    @Secured({"ROLE_ADMIN"})
-//    @GetMapping("/prestamos/regiones")
+//    @GetMapping("/movimientos/regiones")
 }
