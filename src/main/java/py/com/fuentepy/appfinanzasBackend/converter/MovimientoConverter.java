@@ -21,7 +21,7 @@ public class MovimientoConverter {
 
     public static Movimiento modelToEntity(MovimientoModel model) {
         Concepto concepto = new Concepto();
-        concepto.setId(model.getId());
+        concepto.setId(model.getConceptoId());
         concepto.setNombre(model.getConceptoNombre());
         Moneda moneda = new Moneda();
         moneda.setId(model.getMonedaId());
