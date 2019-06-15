@@ -5,6 +5,7 @@ import com.google.gson.annotations.SerializedName;
 import lombok.Data;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * @author vinsfran
@@ -15,6 +16,10 @@ public class MovimientoModel implements Serializable {
     @JsonProperty("id")
     @SerializedName("id")
     private Long id;
+
+    @JsonProperty("fechaMovimiento")
+    @SerializedName("fechaMovimiento")
+    private Date fechaMovimiento;
 
     @JsonProperty("monto")
     @SerializedName("monto")

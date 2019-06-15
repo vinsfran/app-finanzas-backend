@@ -6,6 +6,7 @@ import lombok.extern.apachecommons.CommonsLog;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  *
@@ -24,6 +25,10 @@ public class Movimiento implements Serializable {
     @Basic(optional = false)
     @Column(name = "id")
     private Long id;
+
+    @Column(name = "fecha_movimiento")
+    @Temporal(TemporalType.DATE)
+    private Date fechaMovimiento;
 
     @Basic(optional = false)
     @NotNull

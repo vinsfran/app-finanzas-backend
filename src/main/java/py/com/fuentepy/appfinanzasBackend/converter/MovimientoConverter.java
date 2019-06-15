@@ -31,6 +31,7 @@ public class MovimientoConverter {
         usuario.setId(model.getUsuarioId());
         Movimiento entity = new Movimiento();
         entity.setId(model.getId());
+        entity.setFechaMovimiento(model.getFechaMovimiento());
         entity.setMonto(model.getMonto());
         entity.setConceptoId(concepto);
         entity.setMonedaId(moneda);
@@ -41,6 +42,7 @@ public class MovimientoConverter {
     public static MovimientoModel entityToModel(Movimiento entity) {
         MovimientoModel model = new MovimientoModel();
         model.setId(entity.getId());
+        model.setFechaMovimiento(entity.getFechaMovimiento());
         model.setMonto(entity.getMonto());
         model.setConceptoId(entity.getConceptoId().getId());
         model.setConceptoNombre(entity.getConceptoId().getNombre());
