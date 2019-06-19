@@ -4,17 +4,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import py.com.fuentepy.appfinanzasBackend.entity.Ahorro;
+import py.com.fuentepy.appfinanzasBackend.entity.Presupuesto;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 
 import java.util.List;
 
 @Repository
-public interface AhorroRepository extends JpaRepository<Ahorro, Long> {
+public interface PresupuestoRepository extends JpaRepository<Presupuesto, Long> {
 
-    List<Ahorro> findByUsuarioId(Usuario usuario);
+    List<Presupuesto> findByUsuarioId(Usuario usuario);
 
-    Page<Ahorro> findByUsuarioId(Usuario usuario, Pageable pageable);
+    Page<Presupuesto> findByUsuarioId(Usuario usuario, Pageable pageable);
 
-    Long countByUsuarioId(Usuario usuario);
 }

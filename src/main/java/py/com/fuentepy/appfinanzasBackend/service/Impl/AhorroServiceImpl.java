@@ -76,4 +76,12 @@ public class AhorroServiceImpl implements AhorroService {
     public void delete(Long id) {
         ahorroRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long countByTenantName(Long usuarioId) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        return ahorroRepository.countByUsuarioId(usuario);
+    }
 }

@@ -55,6 +55,9 @@ public class Ahorro implements Serializable {
     @Column(name = "cantidad_cobro")
     private Long cantidadCobro;
 
+    @Column(name = "estado")
+    private Boolean estado;
+
     @JoinColumn(name = "tipos_ahorros_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private TipoAhorro tipoAhorroId;

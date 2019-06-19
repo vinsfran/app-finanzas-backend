@@ -21,4 +21,6 @@ public interface AhorroService {
     AhorroModel save(AhorroModel ahorroModel);
 
     void delete(Long id);
+
+    Long countByTenantName(Long usuarioId);
 }

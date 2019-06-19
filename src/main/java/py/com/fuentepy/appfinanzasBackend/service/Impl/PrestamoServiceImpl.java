@@ -76,4 +76,12 @@ public class PrestamoServiceImpl implements PrestamoService {
     public void delete(Long id) {
         prestamoRepository.deleteById(id);
     }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Long countByTenantName(Long usuarioId) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        return prestamoRepository.countByUsuarioId(usuario);
+    }
 }

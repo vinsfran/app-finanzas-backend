@@ -15,4 +15,6 @@ public interface PrestamoRepository extends JpaRepository<Prestamo, Long> {
     List<Prestamo> findByUsuarioId(Usuario usuario);
 
     Page<Prestamo> findByUsuarioId(Usuario usuario, Pageable pageable);
+
+    Long countByUsuarioId(Usuario usuario);
 }

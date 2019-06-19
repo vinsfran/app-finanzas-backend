@@ -21,4 +21,6 @@ public interface PrestamoService {
     PrestamoModel save(PrestamoModel prestamoModel);
 
     void delete(Long id);
+
+    Long countByTenantName(Long usuarioId);
 }

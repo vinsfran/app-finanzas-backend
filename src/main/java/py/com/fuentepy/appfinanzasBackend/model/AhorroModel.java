@@ -57,6 +57,10 @@ public class AhorroModel implements Serializable {
     @SerializedName("cantidadCobro")
     private Long cantidadCobro;
 
+    @JsonProperty("estado")
+    @SerializedName("estado")
+    private Boolean estado;
+
     @JsonProperty("tipoAhorroId")
     @SerializedName("tipoAhorroId")
     private Integer tipoAhorroId;
