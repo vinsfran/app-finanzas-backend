@@ -22,7 +22,6 @@ public class EntidadFinanciera implements Serializable {
     @Column(name = "id")
     private Integer id;
 
-    @Size(max = 45)
     @Column(name = "nombre")
     private String nombre;
 

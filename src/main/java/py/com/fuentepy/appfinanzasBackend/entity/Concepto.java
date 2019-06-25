@@ -35,8 +35,8 @@ public class Concepto implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 45)
-    @Column(name = "signo")
-    private String signo;
+    @Column(name = "tipo_concepto")
+    private String tipoConcepto;
 
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

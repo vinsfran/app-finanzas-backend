@@ -17,6 +17,10 @@ public class MovimientoModel implements Serializable {
     @SerializedName("id")
     private Long id;
 
+    @JsonProperty("numeroComprobante")
+    @SerializedName("numeroComprobante")
+    private String numeroComprobante;
+
     @JsonProperty("fechaMovimiento")
     @SerializedName("fechaMovimiento")
     private Date fechaMovimiento;
@@ -25,6 +29,10 @@ public class MovimientoModel implements Serializable {
     @SerializedName("monto")
     private Long monto;
 
+    @JsonProperty("nombreEntidad")
+    @SerializedName("nombreEntidad")
+    private String nombreEntidad;
+
     @JsonProperty("conceptoId")
     @SerializedName("conceptoId")
     private Integer conceptoId;
@@ -32,6 +40,10 @@ public class MovimientoModel implements Serializable {
     @JsonProperty("conceptoNombre")
     @SerializedName("conceptoNombre")
     private String conceptoNombre;
+
+    @JsonProperty("tipoConcepto")
+    @SerializedName("tipoConcepto")
+    private String tipoConcepto;
 
     @JsonProperty("monedaId")
     @SerializedName("monedaId")
@@ -44,6 +56,14 @@ public class MovimientoModel implements Serializable {
     @JsonProperty("monedaCodigo")
     @SerializedName("monedaCodigo")
     private String monedaCodigo;
+
+    @JsonProperty("tipoPagoId")
+    @SerializedName("tipoPagoId")
+    private Integer tipoPagoId;
+
+    @JsonProperty("tipoPagoNombre")
+    @SerializedName("tipoPagoNombre")
+    private String tipoPagoNombre;
 
     @JsonProperty("usuarioId")
     @SerializedName("usuarioId")

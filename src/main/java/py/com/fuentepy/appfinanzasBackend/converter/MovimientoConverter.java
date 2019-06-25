@@ -23,18 +23,25 @@ public class MovimientoConverter {
         Concepto concepto = new Concepto();
         concepto.setId(model.getConceptoId());
         concepto.setNombre(model.getConceptoNombre());
+        concepto.setTipoConcepto(model.getTipoConcepto());
         Moneda moneda = new Moneda();
         moneda.setId(model.getMonedaId());
         moneda.setNombre(model.getMonedaNombre());
         moneda.setCodigo(model.getMonedaCodigo());
+        TipoPago tipoPago = new TipoPago();
+        tipoPago.setId(model.getTipoPagoId());
+        tipoPago.setNombre(model.getTipoPagoNombre());
         Usuario usuario = new Usuario();
         usuario.setId(model.getUsuarioId());
         Movimiento entity = new Movimiento();
         entity.setId(model.getId());
+        entity.setNumeroComprobante(model.getNumeroComprobante());
         entity.setFechaMovimiento(model.getFechaMovimiento());
         entity.setMonto(model.getMonto());
+        entity.setNombreEntidad(model.getNombreEntidad());
         entity.setConceptoId(concepto);
         entity.setMonedaId(moneda);
+        entity.setTipoPagoId(tipoPago);
         entity.setUsuarioId(usuario);
         return entity;
     }
@@ -42,13 +49,18 @@ public class MovimientoConverter {
     public static MovimientoModel entityToModel(Movimiento entity) {
         MovimientoModel model = new MovimientoModel();
         model.setId(entity.getId());
+        model.setNumeroComprobante(entity.getNumeroComprobante());
         model.setFechaMovimiento(entity.getFechaMovimiento());
         model.setMonto(entity.getMonto());
+        model.setNombreEntidad(entity.getNombreEntidad());
         model.setConceptoId(entity.getConceptoId().getId());
         model.setConceptoNombre(entity.getConceptoId().getNombre());
+        model.setTipoConcepto(entity.getConceptoId().getTipoConcepto());
         model.setMonedaId(entity.getMonedaId().getId());
         model.setMonedaNombre(entity.getMonedaId().getNombre());
         model.setMonedaCodigo(entity.getMonedaId().getCodigo());
+        model.setTipoPagoId(entity.getTipoPagoId().getId());
+        model.setTipoPagoNombre(entity.getTipoPagoId().getNombre());
         model.setUsuarioId(entity.getUsuarioId().getId());
         return model;
     }

@@ -26,6 +26,9 @@ public class Movimiento implements Serializable {
     @Column(name = "id")
     private Long id;
 
+    @Column(name = "numero_comprobante")
+    private String numeroComprobante;
+
     @Column(name = "fecha_movimiento")
     @Temporal(TemporalType.DATE)
     private Date fechaMovimiento;
@@ -35,6 +38,9 @@ public class Movimiento implements Serializable {
     @Column(name = "monto")
     private Long monto;
 
+    @Column(name = "nombre_entidad")
+    private String nombreEntidad;
+
     @JoinColumn(name = "concepto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Concepto conceptoId;
@@ -42,6 +48,10 @@ public class Movimiento implements Serializable {
     @JoinColumn(name = "moneda_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Moneda monedaId;
+
+    @JoinColumn(name = "tipo_pago_id", referencedColumnName = "id")
+    @ManyToOne(optional = false)
+    private TipoPago tipoPagoId;
 
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

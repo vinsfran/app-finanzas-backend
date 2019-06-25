@@ -20,7 +20,7 @@ public class ConceptoConverter {
         Concepto entity = new Concepto();
         entity.setId(model.getId());
         entity.setNombre(model.getNombre());
-        entity.setSigno(model.getSigno());
+        entity.setTipoConcepto(model.getTipoConcepto());
         entity.setUsuarioId(usuario);
         return entity;
     }
@@ -29,7 +29,7 @@ public class ConceptoConverter {
         ConceptoModel model = new ConceptoModel();
         model.setId(entity.getId());
         model.setNombre(entity.getNombre());
-        model.setSigno(entity.getSigno());
+        model.setTipoConcepto(entity.getTipoConcepto());
         model.setUsuarioId(entity.getUsuarioId().getId());
         return model;
     }
