@@ -14,6 +14,7 @@ import py.com.fuentepy.appfinanzasBackend.model.PrestamoModel;
 import py.com.fuentepy.appfinanzasBackend.repository.PrestamoRepository;
 import py.com.fuentepy.appfinanzasBackend.service.PrestamoService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,5 +84,12 @@ public class PrestamoServiceImpl implements PrestamoService {
         Usuario usuario = new Usuario();
         usuario.setId(usuarioId);
         return prestamoRepository.countByUsuarioId(usuario);
+    }
+
+    @Override
+    public List<Prestamo> movimientosByUsuarioAndRangoFecha(Long usuarioId, Date fechaInicio, Date fechaFin) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        return prestamoRepository.findByUsuarioIdRangoFecha(usuario, fechaInicio, fechaFin);
     }
 }

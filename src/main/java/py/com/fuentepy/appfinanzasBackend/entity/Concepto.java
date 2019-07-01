@@ -38,6 +38,13 @@ public class Concepto implements Serializable {
     @Column(name = "tipo_concepto")
     private String tipoConcepto;
 
+    @Column(name = "global_enable")
+    private Boolean globalEnable;
+
+    @Size(min = 1, max = 45)
+    @Column(name = "codigo_concepto")
+    private String codigoConcepto;
+
     @JoinColumn(name = "usuario_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Usuario usuarioId;

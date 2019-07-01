@@ -3,6 +3,7 @@ package py.com.fuentepy.appfinanzasBackend.entity;
 import lombok.Data;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 import java.io.Serializable;
 import java.util.Date;
@@ -51,6 +52,9 @@ public class Prestamo implements Serializable {
 
     @Column(name = "monto_pagado")
     private Long montoPagado;
+
+    @Column(name = "monto_ultimo_pago")
+    private Long montoUltimoPago;
 
     @Size(max = 255)
     @Column(name = "destino_prestamo")

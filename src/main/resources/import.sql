@@ -51,13 +51,15 @@ INSERT INTO tipos_cobros (nombre) VALUES ('Mensual');
 INSERT INTO tipos_cobros (nombre) VALUES ('Trimestral');
 INSERT INTO tipos_cobros (nombre) VALUES ('Anual');
 
-INSERT INTO ahorros (cantidad_cobro, estado, cantidad_cuotas, fecha_inicio, fecha_vencimiento, interes, monto_capital, monto_cuota, monto_interes_cuota, plazo_total, tasa, entidades_financieras_id, monedas_id, tipos_ahorros_id, tipos_cobros_id, usuario_id) VALUES (0,'true',12,'2019-06-12','2019-06-13',2,500000,50000,0,12,1,1,1,1,1,2);
-INSERT INTO ahorros (cantidad_cobro, estado, cantidad_cuotas, fecha_inicio, fecha_vencimiento, interes, monto_capital, monto_cuota, monto_interes_cuota, plazo_total, tasa, entidades_financieras_id, monedas_id, tipos_ahorros_id, tipos_cobros_id, usuario_id) VALUES (0,'true',12,'2019-06-12','2019-06-13',2,100000000,100000,0,12,1,3,1,1,1,1);
+INSERT INTO ahorros (cantidad_cobro, estado, cantidad_cuotas, fecha_inicio, fecha_vencimiento, interes, monto_capital, monto_cuota, monto_interes_cuota, monto_pagado, monto_ultimo_pago, plazo_total, tasa, entidades_financieras_id, monedas_id, tipos_ahorros_id, tipos_cobros_id, usuario_id) VALUES (0,'true',12,'2019-06-12','2019-06-13',2,500000,50000,0,0,0,12,1,1,1,1,1,2);
+INSERT INTO ahorros (cantidad_cobro, estado, cantidad_cuotas, fecha_inicio, fecha_vencimiento, interes, monto_capital, monto_cuota, monto_interes_cuota, monto_pagado, monto_ultimo_pago, plazo_total, tasa, entidades_financieras_id, monedas_id, tipos_ahorros_id, tipos_cobros_id, usuario_id) VALUES (0,'true',12,'2019-06-12','2019-06-13',2,100000000,100000,0,0,0,12,1,3,1,1,1,1);
 
-INSERT INTO conceptos (nombre, tipo_concepto, usuario_id) VALUES ('Luz', 'Egreso', 2);
-INSERT INTO conceptos (nombre, tipo_concepto, usuario_id) VALUES ('Agua', 'Egreso', 2);
-INSERT INTO conceptos (nombre, tipo_concepto, usuario_id) VALUES ('Escuela', 'Egreso', 2);
-INSERT INTO conceptos (nombre, tipo_concepto, usuario_id) VALUES ('Sueldo', 'Ingreso', 2);
+INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Luz', 'Egreso', 2, false, 'PS');
+INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Agua', 'Egreso', 2, false, 'PS');
+INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Escuela', 'Egreso', 2, false, 'PS');
+INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Sueldo', 'Ingreso', 2, false, 'PS');
+INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Pago de Prestamo', 'Egreso', 1, true, 'PP');
+INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Pago de Ahorro', 'Egreso', 1, true, 'PA');
 
 INSERT INTO meses (nombre, numero) VALUES ('Enero', 1);
 INSERT INTO meses (nombre, numero) VALUES ('Febrero', 2);

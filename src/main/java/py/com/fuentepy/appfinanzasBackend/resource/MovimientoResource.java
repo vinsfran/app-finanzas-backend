@@ -44,7 +44,7 @@ public class MovimientoResource {
 
     @GetMapping("/page")
     public ResponseEntity<?> getPageByUsuarioId(@RequestHeader("Authorization") String authorization,
-                                   @ApiIgnore Pageable pageable) {
+                                                @ApiIgnore Pageable pageable) {
         Long usuarioId = TokenUtil.getIdFromToken(authorization);
         Page<MovimientoModel> movimientos = null;
         Map<String, Object> response = new HashMap<>();
@@ -86,9 +86,7 @@ public class MovimientoResource {
     @Secured({"ROLE_ADMIN"})
     @PostMapping()
     public ResponseEntity<?> create(@Valid @RequestBody MovimientoModel movimientoModel, BindingResult result) {
-
-        System.out.println("create: " + movimientoModel.toString());
-
+        String action = "CREATE";
         MovimientoModel movimientoNew = null;
         Map<String, Object> response = new HashMap<>();
         if (result.hasErrors()) {
@@ -109,7 +107,7 @@ public class MovimientoResource {
         }
 
         try {
-            movimientoNew = movimientoService.save(movimientoModel);
+            movimientoNew = movimientoService.save(movimientoModel, action);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));
@@ -123,6 +121,7 @@ public class MovimientoResource {
     @Secured({"ROLE_ADMIN"})
     @PutMapping()
     public ResponseEntity<?> update(@Valid @RequestBody MovimientoModel movimientoModel, BindingResult result) {
+        String action = "UPDATE";
         Long id = movimientoModel.getId();
         MovimientoModel movimientoUpdated = null;
         Map<String, Object> response = new HashMap<>();
@@ -149,7 +148,7 @@ public class MovimientoResource {
             return new ResponseEntity<>(response, HttpStatus.NOT_FOUND);
         }
         try {
-            movimientoUpdated = movimientoService.save(movimientoModel);
+            movimientoUpdated = movimientoService.save(movimientoModel, action);
         } catch (DataAccessException e) {
             response.put("mensaje", "Error al realizar el insert en la base de datos!");
             response.put("error", e.getMessage().concat(": ").concat(e.getMostSpecificCause().getMessage()));

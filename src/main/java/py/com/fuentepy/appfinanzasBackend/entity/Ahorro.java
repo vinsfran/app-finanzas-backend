@@ -46,6 +46,9 @@ public class Ahorro implements Serializable {
     @Column(name = "cantidad_cuotas")
     private Integer cantidadCuotas;
 
+    @Column(name = "cantidad_cuotas_pagadas")
+    private Integer cantidadCuotasPagadas;
+
     @Column(name = "monto_cuota")
     private Long montoCuota;
 
@@ -54,6 +57,12 @@ public class Ahorro implements Serializable {
 
     @Column(name = "cantidad_cobro")
     private Long cantidadCobro;
+
+    @Column(name = "monto_pagado")
+    private Long montoPagado;
+
+    @Column(name = "monto_ultimo_pago")
+    private Long montoUltimoPago;
 
     @Column(name = "estado")
     private Boolean estado;

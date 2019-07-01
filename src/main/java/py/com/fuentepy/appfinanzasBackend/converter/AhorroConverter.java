@@ -45,11 +45,10 @@ public class AhorroConverter {
         entity.setInteres(model.getInteres());
         entity.setTasa(model.getTasa());
         entity.setCantidadCuotas(model.getCantidadCuotas());
+        entity.setCantidadCuotasPagadas(model.getCantidadCuotasPagadas());
         entity.setMontoInteresCuota(model.getMontoInteresCuota());
-
         entity.setCantidadCobro(model.getCantidadCobro());
         entity.setEstado(model.getEstado());
-
         entity.setTipoAhorroId(tipoAhorro);
         entity.setMonedaId(moneda);
         entity.setEntidadFinancieraId(entidadFinanciera);
@@ -69,6 +68,7 @@ public class AhorroConverter {
         model.setInteres(entity.getInteres());
         model.setTasa(entity.getTasa());
         model.setCantidadCuotas(entity.getCantidadCuotas());
+        model.setCantidadCuotasPagadas(entity.getCantidadCuotasPagadas());
         model.setMontoInteresCuota(entity.getMontoInteresCuota());
         model.setCantidadCobro(entity.getCantidadCobro());
         model.setEstado(entity.getEstado());

@@ -35,11 +35,22 @@ public class Movimiento implements Serializable {
 
     @Basic(optional = false)
     @NotNull
-    @Column(name = "monto")
-    private Long monto;
+    @Column(name = "monto_pagado")
+    private Long montoPagado;
 
     @Column(name = "nombre_entidad")
     private String nombreEntidad;
+
+    @Column(name = "numero_cuota")
+    private Integer numeroCuota;
+
+    @JoinColumn(name = "prestamo_id", referencedColumnName = "id")
+    @ManyToOne(optional = true)
+    private Prestamo prestamoId;
+
+    @JoinColumn(name = "ahorro_id", referencedColumnName = "id")
+    @ManyToOne(optional = true)
+    private Ahorro ahorroId;
 
     @JoinColumn(name = "concepto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)

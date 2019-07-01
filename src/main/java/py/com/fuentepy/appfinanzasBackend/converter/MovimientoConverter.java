@@ -20,10 +20,15 @@ public class MovimientoConverter {
     private static final Log LOG = LogFactory.getLog(MovimientoConverter.class);
 
     public static Movimiento modelToEntity(MovimientoModel model) {
+        Prestamo prestamo = new Prestamo();
+        prestamo.setId(model.getPrestamoId());
+        Ahorro ahorro = new Ahorro();
+        ahorro.setId(model.getAhorroId());
         Concepto concepto = new Concepto();
         concepto.setId(model.getConceptoId());
         concepto.setNombre(model.getConceptoNombre());
         concepto.setTipoConcepto(model.getTipoConcepto());
+        concepto.setCodigoConcepto(model.getCodigoConcepto());
         Moneda moneda = new Moneda();
         moneda.setId(model.getMonedaId());
         moneda.setNombre(model.getMonedaNombre());
@@ -37,8 +42,11 @@ public class MovimientoConverter {
         entity.setId(model.getId());
         entity.setNumeroComprobante(model.getNumeroComprobante());
         entity.setFechaMovimiento(model.getFechaMovimiento());
-        entity.setMonto(model.getMonto());
+        entity.setMontoPagado(model.getMontoPagado());
         entity.setNombreEntidad(model.getNombreEntidad());
+        entity.setPrestamoId(prestamo);
+        entity.setAhorroId(ahorro);
+        entity.setNumeroCuota(model.getNumeroCuota());
         entity.setConceptoId(concepto);
         entity.setMonedaId(moneda);
         entity.setTipoPagoId(tipoPago);
@@ -51,11 +59,19 @@ public class MovimientoConverter {
         model.setId(entity.getId());
         model.setNumeroComprobante(entity.getNumeroComprobante());
         model.setFechaMovimiento(entity.getFechaMovimiento());
-        model.setMonto(entity.getMonto());
+        model.setMontoPagado(entity.getMontoPagado());
         model.setNombreEntidad(entity.getNombreEntidad());
+        if (entity.getPrestamoId() != null) {
+            model.setPrestamoId(entity.getPrestamoId().getId());
+        }
+        if (entity.getAhorroId() != null) {
+            model.setAhorroId(entity.getAhorroId().getId());
+        }
+        model.setNumeroCuota(entity.getNumeroCuota());
         model.setConceptoId(entity.getConceptoId().getId());
         model.setConceptoNombre(entity.getConceptoId().getNombre());
         model.setTipoConcepto(entity.getConceptoId().getTipoConcepto());
+        model.setCodigoConcepto(entity.getConceptoId().getCodigoConcepto());
         model.setMonedaId(entity.getMonedaId().getId());
         model.setMonedaNombre(entity.getMonedaId().getNombre());
         model.setMonedaCodigo(entity.getMonedaId().getCodigo());

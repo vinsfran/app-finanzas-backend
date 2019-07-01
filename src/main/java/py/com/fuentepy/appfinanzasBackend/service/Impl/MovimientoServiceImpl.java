@@ -8,12 +8,18 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.converter.MovimientoConverter;
+import py.com.fuentepy.appfinanzasBackend.entity.Ahorro;
 import py.com.fuentepy.appfinanzasBackend.entity.Movimiento;
+import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 import py.com.fuentepy.appfinanzasBackend.model.MovimientoModel;
+import py.com.fuentepy.appfinanzasBackend.repository.AhorroRepository;
 import py.com.fuentepy.appfinanzasBackend.repository.MovimientoRepository;
+import py.com.fuentepy.appfinanzasBackend.repository.PrestamoRepository;
+import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
 import py.com.fuentepy.appfinanzasBackend.service.MovimientoService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -24,6 +30,15 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Autowired
     private MovimientoRepository movimientoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private PrestamoRepository prestamoRepository;
+
+    @Autowired
+    private AhorroRepository ahorroRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -66,8 +81,43 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Override
     @Transactional
-    public MovimientoModel save(MovimientoModel movimientoModel) {
+    public MovimientoModel save(MovimientoModel movimientoModel, String action) {
+
+        Usuario usuario = usuarioRepository.findById2(movimientoModel.getUsuarioId());
+
+        Prestamo prestamo = null;
+        if (movimientoModel.getPrestamoId() != null && movimientoModel.getPrestamoId() != 0) {
+            Optional<Prestamo> optionalPrestamo = prestamoRepository.findById(movimientoModel.getPrestamoId());
+            if (optionalPrestamo.isPresent()) {
+                prestamo = optionalPrestamo.get();
+                if (action.equals("UPDATE")) {
+                    prestamo.setMontoPagado(prestamo.getMontoPagado() - prestamo.getMontoUltimoPago());
+                }
+                prestamo.setMontoPagado(prestamo.getMontoPagado() + movimientoModel.getMontoPagado());
+                prestamo.setMontoUltimoPago(movimientoModel.getMontoPagado());
+                prestamo.setCantidadCuotasPagadas(movimientoModel.getNumeroCuota());
+            }
+        }
+
+        Ahorro ahorro = null;
+        if (movimientoModel.getAhorroId() != null && movimientoModel.getAhorroId() != 0) {
+            Optional<Ahorro> optionalAhorro = ahorroRepository.findById(movimientoModel.getAhorroId());
+            if (optionalAhorro.isPresent()) {
+                ahorro = optionalAhorro.get();
+                if (action.equals("UPDATE")) {
+                    ahorro.setMontoPagado(ahorro.getMontoPagado() - ahorro.getMontoUltimoPago());
+                }
+                ahorro.setMontoPagado(ahorro.getMontoPagado() + movimientoModel.getMontoPagado());
+                ahorro.setMontoUltimoPago(movimientoModel.getMontoPagado());
+                ahorro.setCantidadCuotasPagadas(movimientoModel.getNumeroCuota());
+            }
+        }
+
         Movimiento entity = MovimientoConverter.modelToEntity(movimientoModel);
+        entity.setUsuarioId(usuario);
+        entity.setPrestamoId(prestamo);
+        entity.setAhorroId(ahorro);
+
         return MovimientoConverter.entityToModel(movimientoRepository.save(entity));
     }
 
@@ -75,5 +125,12 @@ public class MovimientoServiceImpl implements MovimientoService {
     @Transactional
     public void delete(Long id) {
         movimientoRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Movimiento> movimientosByUsuarioAndRangoFecha(Long usuarioId, Date fechaInicio, Date fechaFin) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        return movimientoRepository.findByUsuarioIdRangoFecha(usuario, fechaInicio, fechaFin);
     }
 }

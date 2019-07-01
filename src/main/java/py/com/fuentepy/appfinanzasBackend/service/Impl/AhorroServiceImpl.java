@@ -14,6 +14,7 @@ import py.com.fuentepy.appfinanzasBackend.model.AhorroModel;
 import py.com.fuentepy.appfinanzasBackend.repository.AhorroRepository;
 import py.com.fuentepy.appfinanzasBackend.service.AhorroService;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -83,5 +84,12 @@ public class AhorroServiceImpl implements AhorroService {
         Usuario usuario = new Usuario();
         usuario.setId(usuarioId);
         return ahorroRepository.countByUsuarioId(usuario);
+    }
+
+    @Override
+    public List<Ahorro> movimientosByUsuarioAndRangoFecha(Long usuarioId, Date fechaInicio, Date fechaFin) {
+        Usuario usuario = new Usuario();
+        usuario.setId(usuarioId);
+        return ahorroRepository.findByUsuarioIdRangoFecha(usuario, fechaInicio, fechaFin);
     }
 }

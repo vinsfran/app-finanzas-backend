@@ -21,6 +21,7 @@ public class ConceptoConverter {
         entity.setId(model.getId());
         entity.setNombre(model.getNombre());
         entity.setTipoConcepto(model.getTipoConcepto());
+        entity.setCodigoConcepto(model.getCodigoConcepto());
         entity.setUsuarioId(usuario);
         return entity;
     }
@@ -30,6 +31,7 @@ public class ConceptoConverter {
         model.setId(entity.getId());
         model.setNombre(entity.getNombre());
         model.setTipoConcepto(entity.getTipoConcepto());
+        model.setCodigoConcepto(entity.getCodigoConcepto());
         model.setUsuarioId(entity.getUsuarioId().getId());
         return model;
     }

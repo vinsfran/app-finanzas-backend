@@ -45,6 +45,10 @@ public class AhorroModel implements Serializable {
     @SerializedName("cantidadCuotas")
     private Integer cantidadCuotas;
 
+    @JsonProperty("cantidadCuotasPagadas")
+    @SerializedName("cantidadCuotasPagadas")
+    private Integer cantidadCuotasPagadas;
+
     @JsonProperty("montoCuota")
     @SerializedName("montoCuota")
     private Long montoCuota;

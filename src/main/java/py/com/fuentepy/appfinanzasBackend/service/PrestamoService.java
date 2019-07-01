@@ -2,8 +2,10 @@ package py.com.fuentepy.appfinanzasBackend.service;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
 import py.com.fuentepy.appfinanzasBackend.model.PrestamoModel;
 
+import java.util.Date;
 import java.util.List;
 
 public interface PrestamoService {
@@ -23,4 +25,6 @@ public interface PrestamoService {
     void delete(Long id);
 
     Long countByTenantName(Long usuarioId);
+
+    List<Prestamo> movimientosByUsuarioAndRangoFecha(Long usuarioId, Date fechaInicio, Date fechaFin);
 }

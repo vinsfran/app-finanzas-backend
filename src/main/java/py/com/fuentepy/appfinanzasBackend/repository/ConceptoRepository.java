@@ -12,7 +12,7 @@ import java.util.List;
 @Repository
 public interface ConceptoRepository extends JpaRepository<Concepto, Integer> {
 
-    List<Concepto> findByUsuarioId(Usuario usuario);
+    List<Concepto> findByUsuarioIdOrGlobalEnable(Usuario usuario, Boolean globalEnabled);
 
     Page<Concepto> findByUsuarioId(Usuario usuario, Pageable pageable);
 }

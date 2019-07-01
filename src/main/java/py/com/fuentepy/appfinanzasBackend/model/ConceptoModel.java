@@ -24,6 +24,10 @@ public class ConceptoModel implements Serializable {
     @SerializedName("tipoConcepto")
     private String tipoConcepto;
 
+    @JsonProperty("codigoConcepto")
+    @SerializedName("codigoConcepto")
+    private String codigoConcepto;
+
     @JsonProperty("usuarioId")
     @SerializedName("usuarioId")
     private Long usuarioId;
