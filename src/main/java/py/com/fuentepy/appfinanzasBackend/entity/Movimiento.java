@@ -52,6 +52,10 @@ public class Movimiento implements Serializable {
     @ManyToOne(optional = true)
     private Ahorro ahorroId;
 
+    @JoinColumn(name = "tarjeta_id", referencedColumnName = "id")
+    @ManyToOne(optional = true)
+    private Tarjeta tarjetaId;
+
     @JoinColumn(name = "concepto_id", referencedColumnName = "id")
     @ManyToOne(optional = false)
     private Concepto conceptoId;

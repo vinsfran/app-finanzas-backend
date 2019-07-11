@@ -23,4 +23,7 @@ public interface TarjetaRepository extends JpaRepository<Tarjeta, Long> {
 
     @Query(value = "select u from Tarjeta u where u.usuarioId = :usuario and u.fechaVencimiento BETWEEN :startDate and :endDate")
     List<Tarjeta> findByUsuarioIdRangoFecha(@Param("usuario") Usuario usuario, @Param("startDate") Date startDate, @Param("endDate") Date endDate);
+
+//    @Query(value = "select u from Tarjeta u where u.usuarioId = :usuario")
+//    List<Tarjeta> findByUsuarioId(@Param("usuario") Usuario usuario);
 }

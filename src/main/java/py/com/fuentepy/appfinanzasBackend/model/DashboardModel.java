@@ -40,11 +40,9 @@ public class DashboardModel {
     @SerializedName("proximoVencimientoPrestamos")
     private Date proximoVencimientoPrestamos;
 
-
     @JsonProperty("cantidadAhorros")
     @SerializedName("cantidadAhorros")
     private Integer cantidadAhorros;
-
 
     @JsonProperty("totalMontoInteresAhorros")
     @SerializedName("totalMontoInteresAhorros")
@@ -57,4 +55,16 @@ public class DashboardModel {
     @JsonProperty("proximoVencimientoAhorros")
     @SerializedName("proximoVencimientoAhorros")
     private Date proximoVencimientoAhorros;
+
+    @JsonProperty("cantidadTarjetas")
+    @SerializedName("cantidadTarjetas")
+    private Integer cantidadTarjetas;
+
+    @JsonProperty("totalDeudaTarjetas")
+    @SerializedName("totalDeudaTarjetas")
+    private Long totalDeudaTarjetas;
+
+    @JsonProperty("totalLineaTarjetas")
+    @SerializedName("totalLineaTarjetas")
+    private Long totalLineaTarjetas;
 }

@@ -24,6 +24,8 @@ public class MovimientoConverter {
         prestamo.setId(model.getPrestamoId());
         Ahorro ahorro = new Ahorro();
         ahorro.setId(model.getAhorroId());
+        Tarjeta tarjeta = new Tarjeta();
+        tarjeta.setId(model.getTarjetaId());
         Concepto concepto = new Concepto();
         concepto.setId(model.getConceptoId());
         concepto.setNombre(model.getConceptoNombre());
@@ -46,6 +48,7 @@ public class MovimientoConverter {
         entity.setNombreEntidad(model.getNombreEntidad());
         entity.setPrestamoId(prestamo);
         entity.setAhorroId(ahorro);
+        entity.setTarjetaId(tarjeta);
         entity.setNumeroCuota(model.getNumeroCuota());
         entity.setConceptoId(concepto);
         entity.setMonedaId(moneda);
@@ -66,6 +69,9 @@ public class MovimientoConverter {
         }
         if (entity.getAhorroId() != null) {
             model.setAhorroId(entity.getAhorroId().getId());
+        }
+        if (entity.getTarjetaId() != null) {
+            model.setTarjetaId(entity.getTarjetaId().getId());
         }
         model.setNumeroCuota(entity.getNumeroCuota());
         model.setConceptoId(entity.getConceptoId().getId());

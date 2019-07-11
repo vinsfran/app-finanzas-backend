@@ -41,6 +41,10 @@ public class MovimientoModel implements Serializable {
     @SerializedName("ahorroId")
     private Long ahorroId;
 
+    @JsonProperty("tarjetaId")
+    @SerializedName("tarjetaId")
+    private Long tarjetaId;
+
     @JsonProperty("numeroCuota")
     @SerializedName("numeroCuota")
     private Integer numeroCuota;

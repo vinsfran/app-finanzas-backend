@@ -8,10 +8,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.converter.MovimientoConverter;
-import py.com.fuentepy.appfinanzasBackend.entity.Ahorro;
-import py.com.fuentepy.appfinanzasBackend.entity.Movimiento;
-import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
-import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
+import py.com.fuentepy.appfinanzasBackend.entity.*;
 import py.com.fuentepy.appfinanzasBackend.model.MovimientoModel;
 import py.com.fuentepy.appfinanzasBackend.repository.AhorroRepository;
 import py.com.fuentepy.appfinanzasBackend.repository.MovimientoRepository;
@@ -101,6 +98,20 @@ public class MovimientoServiceImpl implements MovimientoService {
 
         Ahorro ahorro = null;
         if (movimientoModel.getAhorroId() != null && movimientoModel.getAhorroId() != 0) {
+            Optional<Ahorro> optionalAhorro = ahorroRepository.findById(movimientoModel.getAhorroId());
+            if (optionalAhorro.isPresent()) {
+                ahorro = optionalAhorro.get();
+                if (action.equals("UPDATE")) {
+                    ahorro.setMontoPagado(ahorro.getMontoPagado() - ahorro.getMontoUltimoPago());
+                }
+                ahorro.setMontoPagado(ahorro.getMontoPagado() + movimientoModel.getMontoPagado());
+                ahorro.setMontoUltimoPago(movimientoModel.getMontoPagado());
+                ahorro.setCantidadCuotasPagadas(movimientoModel.getNumeroCuota());
+            }
+        }
+
+        Tarjeta tarjeta = null;
+        if (movimientoModel.getTarjetaId() != null && movimientoModel.getTarjetaId() != 0) {
             Optional<Ahorro> optionalAhorro = ahorroRepository.findById(movimientoModel.getAhorroId());
             if (optionalAhorro.isPresent()) {
                 ahorro = optionalAhorro.get();

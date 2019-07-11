@@ -12,11 +12,13 @@ import org.springframework.web.bind.annotation.*;
 import py.com.fuentepy.appfinanzasBackend.entity.Ahorro;
 import py.com.fuentepy.appfinanzasBackend.entity.Movimiento;
 import py.com.fuentepy.appfinanzasBackend.entity.Prestamo;
+import py.com.fuentepy.appfinanzasBackend.entity.Tarjeta;
 import py.com.fuentepy.appfinanzasBackend.model.DashboardModel;
 import py.com.fuentepy.appfinanzasBackend.model.MovimientoModel;
 import py.com.fuentepy.appfinanzasBackend.service.AhorroService;
 import py.com.fuentepy.appfinanzasBackend.service.MovimientoService;
 import py.com.fuentepy.appfinanzasBackend.service.PrestamoService;
+import py.com.fuentepy.appfinanzasBackend.service.TarjetaService;
 import py.com.fuentepy.appfinanzasBackend.util.TokenUtil;
 
 import java.util.Date;
@@ -37,6 +39,9 @@ public class DashboardResource {
 
     @Autowired
     private AhorroService ahorroService;
+
+    @Autowired
+    private TarjetaService tarjetaService;
 
     @Secured({"ROLE_ADMIN"})
     @GetMapping()
@@ -68,7 +73,6 @@ public class DashboardResource {
                 dashboardModel.setTotalCuotasMontoPrestamos(dashboardModel.getTotalCuotasMontoPrestamos() + prestamo.getMontoCuota());
             }
 
-
             dashboardModel.setCantidadAhorros(0);
             dashboardModel.setTotalMontoInteresAhorros(0L);
             dashboardModel.setTotalMontoCapitalAhorros(0L);
@@ -77,6 +81,15 @@ public class DashboardResource {
                 dashboardModel.setCantidadAhorros(dashboardModel.getCantidadAhorros() + 1);
                 dashboardModel.setTotalMontoInteresAhorros(dashboardModel.getTotalMontoInteresAhorros() + ahorro.getInteres());
                 dashboardModel.setTotalMontoCapitalAhorros(dashboardModel.getTotalMontoCapitalAhorros() + ahorro.getMontoCapital());
+            }
+
+            dashboardModel.setCantidadTarjetas(0);
+            dashboardModel.setTotalDeudaTarjetas(0L);
+            dashboardModel.setTotalLineaTarjetas(0L);
+            for (Tarjeta tarjeta : tarjetaService.findByUsuarioIdLista(usuarioId)) {
+                dashboardModel.setCantidadTarjetas(dashboardModel.getCantidadTarjetas() + 1);
+
+                dashboardModel.setTotalLineaTarjetas(dashboardModel.getTotalLineaTarjetas() + tarjeta.getLineaCredito());
             }
 
         } catch (DataAccessException e) {

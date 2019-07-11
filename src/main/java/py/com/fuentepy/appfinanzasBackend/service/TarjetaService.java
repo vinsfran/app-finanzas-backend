@@ -26,5 +26,5 @@ public interface TarjetaService {
 
     Long countByTenantName(Long usuarioId);
 
-    List<Tarjeta> movimientosByUsuarioAndRangoFecha(Long usuarioId, Date fechaInicio, Date fechaFin);
+    List<Tarjeta> findByUsuarioIdLista(Long usuarioId);
 }

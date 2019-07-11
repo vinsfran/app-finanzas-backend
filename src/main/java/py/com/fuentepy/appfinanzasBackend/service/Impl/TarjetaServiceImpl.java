@@ -86,10 +86,13 @@ public class TarjetaServiceImpl implements TarjetaService {
         return TarjetaRepository.countByUsuarioId(usuario);
     }
 
+
     @Override
-    public List<Tarjeta> movimientosByUsuarioAndRangoFecha(Long usuarioId, Date fechaInicio, Date fechaFin) {
+    @Transactional(readOnly = true)
+    public List<Tarjeta> findByUsuarioIdLista(Long usuarioId) {
         Usuario usuario = new Usuario();
         usuario.setId(usuarioId);
-        return TarjetaRepository.findByUsuarioIdRangoFecha(usuario, fechaInicio, fechaFin);
+        return TarjetaRepository.findByUsuarioId(usuario);
     }
+
 }
