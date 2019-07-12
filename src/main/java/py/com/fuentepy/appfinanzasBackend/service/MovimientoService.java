@@ -25,4 +25,10 @@ public interface MovimientoService {
     void delete(Long id);
 
     List<Movimiento> movimientosByUsuarioAndRangoFecha(Long usuarioId, Date fechaInicio, Date fechaFin);
+
+    Page<MovimientoModel> findByPrestamoId(Long prestamoId, Pageable pageable);
+
+    Page<MovimientoModel> findByAhorroId(Long ahorroId, Pageable pageable);
+
+    Page<MovimientoModel> findByTarjetaId(Long tarjetaId, Pageable pageable);
 }

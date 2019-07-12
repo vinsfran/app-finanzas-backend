@@ -10,10 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.converter.MovimientoConverter;
 import py.com.fuentepy.appfinanzasBackend.entity.*;
 import py.com.fuentepy.appfinanzasBackend.model.MovimientoModel;
-import py.com.fuentepy.appfinanzasBackend.repository.AhorroRepository;
-import py.com.fuentepy.appfinanzasBackend.repository.MovimientoRepository;
-import py.com.fuentepy.appfinanzasBackend.repository.PrestamoRepository;
-import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
+import py.com.fuentepy.appfinanzasBackend.repository.*;
 import py.com.fuentepy.appfinanzasBackend.service.MovimientoService;
 
 import java.util.Date;
@@ -36,6 +33,9 @@ public class MovimientoServiceImpl implements MovimientoService {
 
     @Autowired
     private AhorroRepository ahorroRepository;
+
+    @Autowired
+    private TarjetaRepository tarjetaRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -112,15 +112,16 @@ public class MovimientoServiceImpl implements MovimientoService {
 
         Tarjeta tarjeta = null;
         if (movimientoModel.getTarjetaId() != null && movimientoModel.getTarjetaId() != 0) {
-            Optional<Ahorro> optionalAhorro = ahorroRepository.findById(movimientoModel.getAhorroId());
-            if (optionalAhorro.isPresent()) {
-                ahorro = optionalAhorro.get();
+            Optional<Tarjeta> optionalTarjeta = tarjetaRepository.findById(movimientoModel.getTarjetaId());
+            if (optionalTarjeta.isPresent()) {
+                tarjeta = optionalTarjeta.get();
                 if (action.equals("UPDATE")) {
-                    ahorro.setMontoPagado(ahorro.getMontoPagado() - ahorro.getMontoUltimoPago());
+                    tarjeta.setMontoPagado(tarjeta.getMontoPagado() - tarjeta.getMontoUltimoPago());
+                } else {
+                    tarjeta.setMontoPagado(0L);
                 }
-                ahorro.setMontoPagado(ahorro.getMontoPagado() + movimientoModel.getMontoPagado());
-                ahorro.setMontoUltimoPago(movimientoModel.getMontoPagado());
-                ahorro.setCantidadCuotasPagadas(movimientoModel.getNumeroCuota());
+                tarjeta.setMontoPagado(tarjeta.getMontoPagado() + movimientoModel.getMontoPagado());
+                tarjeta.setMontoUltimoPago(movimientoModel.getMontoPagado());
             }
         }
 
@@ -128,6 +129,7 @@ public class MovimientoServiceImpl implements MovimientoService {
         entity.setUsuarioId(usuario);
         entity.setPrestamoId(prestamo);
         entity.setAhorroId(ahorro);
+        entity.setTarjetaId(tarjeta);
 
         return MovimientoConverter.entityToModel(movimientoRepository.save(entity));
     }
@@ -143,5 +145,28 @@ public class MovimientoServiceImpl implements MovimientoService {
         Usuario usuario = new Usuario();
         usuario.setId(usuarioId);
         return movimientoRepository.findByUsuarioIdRangoFecha(usuario, fechaInicio, fechaFin);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<MovimientoModel> findByPrestamoId(Long prestamoId, Pageable pageable) {
+        Prestamo prestamo = new Prestamo();
+        prestamo.setId(prestamoId);
+        return MovimientoConverter.pageEntitytoPageModel(pageable, movimientoRepository.findByPrestamoId(prestamo, pageable));
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<MovimientoModel> findByAhorroId(Long ahorroId, Pageable pageable) {
+        Ahorro ahorro = new Ahorro();
+        ahorro.setId(ahorroId);
+        return MovimientoConverter.pageEntitytoPageModel(pageable, movimientoRepository.findByAhorroId(ahorro, pageable));
+    }
+
+    @Override
+    public Page<MovimientoModel> findByTarjetaId(Long tarjetaId, Pageable pageable) {
+        Tarjeta tarjeta = new Tarjeta();
+        tarjeta.setId(tarjetaId);
+        return MovimientoConverter.pageEntitytoPageModel(pageable, movimientoRepository.findByTarjetaId(tarjeta, pageable));
     }
 }
