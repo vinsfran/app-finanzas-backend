@@ -60,6 +60,7 @@ INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_
 INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Sueldo', 'Ingreso', 2, false, 'PS');
 INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Pago de Prestamo', 'Egreso', 1, true, 'PP');
 INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Pago de Ahorro', 'Egreso', 1, true, 'PA');
+INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Cobro de Ahorro', 'Ingreso', 1, false, 'CA');
 INSERT INTO conceptos (nombre, tipo_concepto, usuario_id, global_enable, codigo_concepto) VALUES ('Pago de Tarjeta', 'Egreso', 1, true, 'PT');
 
 INSERT INTO meses (nombre, numero) VALUES ('Enero', 1);

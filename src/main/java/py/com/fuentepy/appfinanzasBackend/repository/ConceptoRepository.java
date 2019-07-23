@@ -15,4 +15,6 @@ public interface ConceptoRepository extends JpaRepository<Concepto, Integer> {
     List<Concepto> findByUsuarioIdOrGlobalEnable(Usuario usuario, Boolean globalEnabled);
 
     Page<Concepto> findByUsuarioId(Usuario usuario, Pageable pageable);
+
+    Concepto findByCodigoConcepto(String codigoConcepto);
 }

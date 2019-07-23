@@ -9,9 +9,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import py.com.fuentepy.appfinanzasBackend.converter.AhorroConverter;
 import py.com.fuentepy.appfinanzasBackend.entity.Ahorro;
+import py.com.fuentepy.appfinanzasBackend.entity.Concepto;
+import py.com.fuentepy.appfinanzasBackend.entity.Movimiento;
 import py.com.fuentepy.appfinanzasBackend.entity.Usuario;
 import py.com.fuentepy.appfinanzasBackend.model.AhorroModel;
 import py.com.fuentepy.appfinanzasBackend.repository.AhorroRepository;
+import py.com.fuentepy.appfinanzasBackend.repository.ConceptoRepository;
+import py.com.fuentepy.appfinanzasBackend.repository.MovimientoRepository;
+import py.com.fuentepy.appfinanzasBackend.repository.UsuarioRepository;
 import py.com.fuentepy.appfinanzasBackend.service.AhorroService;
 
 import java.util.Date;
@@ -25,6 +30,15 @@ public class AhorroServiceImpl implements AhorroService {
 
     @Autowired
     private AhorroRepository ahorroRepository;
+
+    @Autowired
+    private MovimientoRepository movimientoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
+
+    @Autowired
+    private ConceptoRepository conceptoRepository;
 
     @Override
     @Transactional(readOnly = true)
@@ -68,7 +82,28 @@ public class AhorroServiceImpl implements AhorroService {
     @Override
     @Transactional
     public AhorroModel save(AhorroModel ahorroModel) {
+        Usuario usuario = usuarioRepository.findById2(ahorroModel.getUsuarioId());
         Ahorro entity = AhorroConverter.modelToEntity(ahorroModel);
+
+        if(!entity.getEstado()){
+            Concepto concepto = conceptoRepository.findByCodigoConcepto("CA");
+
+            Movimiento movimiento = new Movimiento();
+            movimiento.setNumeroComprobante("");
+            movimiento.setFechaMovimiento(entity.getFechaVencimiento());
+            movimiento.setMontoPagado(entity.getMontoCapital());
+            movimiento.setNombreEntidad(entity.getEntidadFinancieraId().getNombre());
+            movimiento.setPrestamoId(null);
+            movimiento.setAhorroId(entity);
+            movimiento.setTarjetaId(null);
+            movimiento.setNumeroCuota(entity.getCantidadCuotas());
+            movimiento.setConceptoId(concepto);
+            movimiento.setMonedaId(entity.getMonedaId());
+//            movimiento.setTipoPagoId(entity.getTipoCobroId());
+            movimiento.setUsuarioId(usuario);
+            movimientoRepository.save(movimiento);
+        }
+
         return AhorroConverter.entityToModel(ahorroRepository.save(entity));
     }
 
